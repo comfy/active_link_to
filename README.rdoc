@@ -1,0 +1,36 @@
+= ActiveLinkHelper
+
+A step closer to managing 'currenty selected links'
+
+
+== Usage
+
+1. active_link('Link', '/some_controller/action', :self_only)
+    Will create a link marked as active for that page only:
+    
+    <a class="active" href="/some_controller/action">Link</a>
+
+2. active_link('Link', '/some_controller/action', :self)
+    Will create a link marked as active for that page and every sub-page
+    so /some_controller/action and /some_controller/action/blah will both be marked active
+
+    <a class="active" href="/some_controller/action">Link</a>
+    <a class="active" href="/some_controller/action/blah">Link</a>
+
+3. active_link('Link', '/some_link', custom_regex)
+    Will be marked as active if regex matches current uri
+    
+4. active_link 'Label', link_path, 'users' => ['new', 'create']
+    Will be marked as active if controller and action from params match provided hash pairs
+    Alternatively:
+    active_link 'Label', link_path, {
+      'users' => ['new', 'create'], 
+      'books' => 'edit',
+      'trees' => ['edit', 'update']
+    }
+
+5. active_class('/some_link', :self_only)
+    Returns only the string 'active' using the same rules as in active_link
+    Usefull when you need to activate other elements.
+    
+    <li class="active">ng of currently active elements
