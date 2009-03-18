@@ -1,0 +1,21 @@
+-- November 07, 2008
+* Added is_active_link? method. Takes same parameters as any other 
+  active_link method and returns true or false
+* Added ability to pass controller => action(s) pairs. 
+  For example, this will make link active when we are viewing user create
+  form and even when the form submission fails:
+  active_link 'Label', link_path, 'users' => ['new', 'create']
+  Alternatively:
+  active_link 'Label', link_path, {
+    'users' => ['new', 'create'], 
+    'books' => 'edit',
+    'trees' => ['edit', 'update']
+  }
+
+-- October 13, 2008
+* Added ability to pass booleans instead of regex or predefined options.
+  Example:
+  active_link 'Open tab', tab_path, is_this_tab_open?(current_tab)
+
+-- BC (before changelog)
+* Active Link Helper was birthed
