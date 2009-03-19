@@ -1,3 +1,6 @@
+-- March 18, 2009
+* Links can be absolute. like http://test.test/news
+
 -- November 07, 2008
 * Added is_active_link? method. Takes same parameters as any other 
   active_link method and returns true or false

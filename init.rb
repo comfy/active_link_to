@@ -1,1 +1,1 @@
-require 'active_link_helper'
+require File.dirname(__FILE__) << "/lib/active_link_helper"

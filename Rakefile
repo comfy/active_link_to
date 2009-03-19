@@ -2,7 +2,7 @@ require 'rubygems'
 require 'rake'
 require 'echoe'
 
-Echoe.new('active_link_helper', '1.0.1') do |p|
+Echoe.new('active_link_helper', '1.0.2') do |p|
   p.description     = "Easily manage currently active links"
   p.url             = "http://theworkinggroup.ca"
   p.author          = "Oleg Khabarov"
