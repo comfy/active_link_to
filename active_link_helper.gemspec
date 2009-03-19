@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{active_link_helper}
-  s.version = "1.0.3"
+  s.version = "1.0.4"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 1.2") if s.respond_to? :required_rubygems_version=
   s.authors = ["Oleg Khabarov"]
