@@ -1,10 +1,22 @@
 = active_link_to
 
 Creates a link tag of the given +name+ using a URL created by the set of
-+options+. Please see documentation for link_to, as active_link_to is
-basically a wrapper for it. This method accepts an optional +:active+
+options. Please see documentation for link_to, as active_link_to is
+basically a wrapper for it. This method accepts an optional :active
 parameter that dictates if the given link will have an extra css class
 attached that marks it as 'active'.
+
+=== Install
+  
+  $ gem install active_link_to
+
+Then you probably want to declare it in your environment.rb
+
+  config.gem 'active_link_to'
+  
+and freeze it (preferably):
+
+  $ rake gems:unpack GEM=active_link_to
 
 === Super Simple Example
 Here's a link that will have class attached if it happens to be rendered 
