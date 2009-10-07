@@ -1,1 +1,1 @@
-require 'active_link_helper'
+require 'active_link_to'
