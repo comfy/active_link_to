@@ -8,7 +8,7 @@ attached that marks it as 'active'.
 
 === Install
   
-  $ gem install active_link_to
+  $ sudo gem install active_link_to
 
 Then you probably want to declare it in your environment.rb
 
