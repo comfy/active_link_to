@@ -111,6 +111,9 @@ module ActiveLinkTo
       html_options  = args[2] || {}
     end
     
+    options = options.clone
+    html_options = html_options.clone
+    
     url = url_for(options)
     active_link_options = html_options.delete(:active) || {}
     css_class = active_class(url, active_link_options)

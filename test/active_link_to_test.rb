@@ -73,4 +73,12 @@ class ActiveLinkToTest < Test::Unit::TestCase
     assert_equal '<span class="active">name</span>', out
   end
   
+  def test_should_not_modify_passed_params
+    request.request_uri = '/test'
+    params = {:class => 'testing'}
+    out = active_link_to 'name', '/test', params
+    assert_equal '<a href="/test" class="testing active">name</a>', out
+    assert_equal ({:class => 'testing'}), params
+  end
+  
 end
