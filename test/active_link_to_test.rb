@@ -12,6 +12,12 @@ class ActiveLinkToTest < Test::Unit::TestCase
     assert_equal '<a href="/not-test">name</a>', out
   end
   
+  def test_matching_self_with_extra_parameters
+    request.request_uri = '/test?status=what'
+    out = active_link_to 'name', '/test'
+    assert_equal '<a href="/test" class="active">name</a>', out
+  end
+  
   def test_matching_self_only
     request.request_uri = '/test/fail'
     out = active_link_to 'name', '/test/fail', :active => { :when => :self_only }

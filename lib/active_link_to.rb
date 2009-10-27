@@ -142,7 +142,7 @@ module ActiveLinkTo
   def is_active_link?(url, options = {})
     case options[:when]
     when :self, nil
-      !request.request_uri.match(/^#{Regexp.escape(url)}(\/.*)?$/).blank?
+      !request.request_uri.match(/^#{Regexp.escape(url)}(\/?.*)?$/).blank?
     when :self_only
       !request.request_uri.match(/^#{Regexp.escape(url)}\/?(\?.*)?$/).blank?
     when Regexp
