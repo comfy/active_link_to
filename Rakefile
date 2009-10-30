@@ -8,7 +8,7 @@ begin
     gem.summary = 'Marks currently active links'
     gem.description = 'Extremely helpful when you need to add some logic that figures out if the link (or more often navigation item) is selected based on the current page or other arbitrary condition'
     gem.email = "oleg@theworkinggroup.ca"
-    gem.homepage = "http://github.com/OlegK/active_link_to"
+    gem.homepage = "http://github.com/theworkinggroup/active_link_to"
     gem.authors = ["Oleg Khabarov"]
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
     gem.rubyforge_project = 'active-link-to'
