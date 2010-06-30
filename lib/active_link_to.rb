@@ -142,11 +142,11 @@ module ActiveLinkTo
   def is_active_link?(url, options = {})
     case options[:when]
     when :self, nil
-      !request.request_uri.match(/^#{Regexp.escape(url)}(\/?.*)?$/).blank?
+      !request.fullpath.match(/^#{Regexp.escape(url)}(\/?.*)?$/).blank?
     when :self_only
-      !request.request_uri.match(/^#{Regexp.escape(url)}\/?(\?.*)?$/).blank?
+      !request.fullpath.match(/^#{Regexp.escape(url)}\/?(\?.*)?$/).blank?
     when Regexp
-      !request.request_uri.match(options[:when]).blank?
+      !request.fullpath.match(options[:when]).blank?
     when Array
       controllers = options[:when][0]
       actions     = options[:when][1]

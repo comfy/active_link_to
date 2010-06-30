@@ -9,7 +9,7 @@ require 'active_link_to'
 # need this to simulate requests that drive active_link_helper
 module FakeRequest
   class Request
-    attr_accessor :request_uri
+    attr_accessor :fullpath
   end
   def request
     @request ||= Request.new
