@@ -12,8 +12,17 @@ class ActiveLinkToTest < Test::Unit::TestCase
     assert_equal '<a href="/not-test">name</a>', out
   end
   
+  def test_matching_self_with_similar_url
+    request.fullpath = '/test/19'
+    out = active_link_to 'name', '/test/1'
+    assert_equal '<a href="/test/1">name</a>', out
+  end
+  
   def test_matching_self_with_extra_parameters
     request.fullpath = '/test?status=what'
+    out = active_link_to 'name', '/test'
+    assert_equal '<a href="/test" class="active">name</a>', out
+    request.fullpath = '/test/?status=what'
     out = active_link_to 'name', '/test'
     assert_equal '<a href="/test" class="active">name</a>', out
   end
