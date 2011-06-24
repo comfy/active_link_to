@@ -122,7 +122,7 @@ module ActiveLinkTo
     html_options[:class] += " #{css_class}" if !css_class.blank?
     html_options[:class].blank? ? html_options.delete(:class) : html_options[:class].lstrip!
     
-    if active_link_options[:disable_link] === true
+    if active_link_options[:disable_link] === true && is_active_link?(url, active_link_options)
       content_tag(:span, name, html_options)
     else
       link_to(name, url, html_options)

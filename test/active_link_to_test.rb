@@ -86,6 +86,9 @@ class ActiveLinkToTest < Test::Unit::TestCase
     request.fullpath = '/test'
     out = active_link_to 'name', '/test', :active => { :disable_link => true }
     assert_equal '<span class="active">name</span>', out
+    
+    out = active_link_to 'name', '/other', :active => { :disable_link => true }
+    assert_equal '<a href="/other">name</a>', out
   end
   
   def test_should_not_modify_passed_params
