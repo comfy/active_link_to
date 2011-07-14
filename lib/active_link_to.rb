@@ -148,8 +148,8 @@ module ActiveLinkTo
     when Regexp
       !request.fullpath.match(options[:when]).blank?
     when Array
-      controllers = options[:when][0]
-      actions     = options[:when][1]
+      controllers = [*options[:when][0]]
+      actions     = [*options[:when][1]]
       (controllers.blank? || controllers.member?(params[:controller])) &&
       (actions.blank? || actions.member?(params[:action]))
     when TrueClass
