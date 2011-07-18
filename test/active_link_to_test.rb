@@ -49,6 +49,20 @@ class ActiveLinkToTest < Test::Unit::TestCase
     assert_equal '<a href="/test">name</a>', out
   end
   
+  
+  def test_matching_controller_action_singular_values
+    request.fullpath = '/test/23'
+    params[:controller], params[:action] = 'tests', 'show'
+    out = active_link_to 'name', '/test/23', :active => { :when => ['tests', ['show', 'edit']]}
+    assert_equal '<a href="/test/23" class="active">name</a>', out
+    out = active_link_to 'name', '/test/23', :active => { :when => [ 'tests' ]}
+    assert_equal '<a href="/test/23" class="active">name</a>', out
+    out = active_link_to 'name', '/test/23', :active => { :when => [nil, 'show']}
+    assert_equal '<a href="/test/23" class="active">name</a>', out
+    out = active_link_to 'name', '/test/23', :active => { :when => ['tests', 'update']}
+    assert_equal '<a href="/test/23">name</a>', out
+  end
+  
   def test_matching_controller_action_touples
     request.fullpath = '/test/23'
     params[:controller], params[:action] = 'tests', 'show'
