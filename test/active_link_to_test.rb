@@ -27,6 +27,12 @@ class ActiveLinkToTest < Test::Unit::TestCase
     assert_equal '<a href="/test" class="active">name</a>', out
   end
   
+  def test_matching_self_with_extra_params_in_the_link
+    request.fullpath = '/test?status=what'
+    out = active_link_to 'name', '/test?what=status'
+    assert_equal '<a href="/test?what=status" class="active">name</a>', out
+  end
+  
   def test_matching_self_only
     request.fullpath = '/test/fail'
     out = active_link_to 'name', '/test/fail', :active => { :when => :self_only }
@@ -48,7 +54,6 @@ class ActiveLinkToTest < Test::Unit::TestCase
     out = active_link_to 'name', '/test', :active => { :when => /^\/no/}
     assert_equal '<a href="/test">name</a>', out
   end
-  
   
   def test_matching_controller_action_singular_values
     request.fullpath = '/test/23'

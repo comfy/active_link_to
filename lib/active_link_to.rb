@@ -140,6 +140,7 @@ module ActiveLinkTo
   
   # Returns true or false. Takes the link's URL and :active parameters
   def is_active_link?(url, options = {})
+    url = url.sub(/\?.*/, '')
     case options[:when]
     when :self, nil
       !request.fullpath.match(/^#{Regexp.escape(url)}(\/.*|\?.*)?$/).blank?
