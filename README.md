@@ -82,7 +82,7 @@ Sometimes you want to replace link with a span if it's active:
     
 If you are constructing navigation links it's helpful to wrap links in another tag, like `<li>` maybe:
     
-    active_link_to 'Users', users_path, :wrap_link => :li
+    active_link_to 'Users', users_path, :wrap_tag => :li
     # => <li class="active"><a href="/users">Users</a></li>
     
 ## Helper Methods
