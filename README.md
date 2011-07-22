@@ -54,10 +54,10 @@ What if we need to mark link active for all URLs that match a particular control
 or action, or both? Or any number of those at the same time? Sure, why not:
     
     # For matching multiple controllers and actions:
-    active_link_to 'User Edit', edit_user_path(@user), :active => [['people', 'aliens'], ['show', 'edit']]
+    active_link_to 'User Edit', edit_user_path(@user), :active => [['people', 'news'], ['show', 'edit']]
     
     # for matching all actions under given controllers:
-    active_link_to 'User Edit', edit_user_path(@user), :active => [['people', 'aliens'], []]
+    active_link_to 'User Edit', edit_user_path(@user), :active => [['people', 'news'], []]
     
     # for matching all controllers for a particular action
     active_link_to 'User Edit', edit_user_path(@user), :active => [[], ['edit']]
