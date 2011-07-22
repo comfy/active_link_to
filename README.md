@@ -7,7 +7,7 @@ Creates a link tag of the given name using a URL created by the set of options. 
 
 When installing for Rails 3 applications add this to the Gemfile: `gem 'active_link_to'` and run `bundle install`.
 
-For older Rails apps add `config.gem 'active_link_to'` in config/environment.rb and run `rake gems:install`.
+For older Rails apps add `config.gem 'active_link_to'` in config/environment.rb and run `rake gems:install`. Or just checkout this repo into /vendor/plugins directory.
 
 ## Super Simple Example
 Here's a link that will have class attached if it happens to be rendered 
