@@ -10,8 +10,8 @@ When installing for Rails 3 applications add this to the Gemfile: `gem 'active_l
 For older Rails apps add `config.gem 'active_link_to'` in config/environment.rb and run `rake gems:install`. Or just checkout this repo into /vendor/plugins directory.
 
 ## Super Simple Example
-Here's a link that will have class attached if it happens to be rendered 
-on page with path `/users` or any child of that page like `/users/123`
+Here's a link that will have a class attached if it happens to be rendered 
+on page with path `/users` or any child of that page, like `/users/123`
 
     active_link_to 'Users', '/users'
     # => <a href="/users" class="active">Users</a>
@@ -22,7 +22,7 @@ This is exactly the same as:
     # => <a href="/users" class="active">Users</a>
 
 ## Active Options
-Here's available options that can be used as the `:active` value
+Here's a list of available options that can be used as the `:active` value
 
 * Boolean                 -> true | false
 * Symbol                  -> :exclusive | :inclusive
@@ -34,8 +34,8 @@ Most of the functionality of `active_link_to` depends on the current
 url. Specifically, `request.fullpath` value. We covered the basic example
 already, so let's try something more fun.
 
-We want to highlight the link that matches immediate url, and not the children
-nodes as well
+We want to highlight a link that matches immediate url, but not the children
+nodes. Most commonly used for 'home' links.
     
     # For URL: /users will be active
     active_link_to 'Users', users_path, :active => :exclusive
@@ -62,7 +62,7 @@ or action, or both? Or any number of those at the same time? Sure, why not:
     # for matching all controllers for a particular action
     active_link_to 'User Edit', edit_user_path(@user), :active => [[], ['edit']]
     
-Sometimes it should be easy as setting a true or false:
+Sometimes it should be as easy as giving link true or false value:
     
     active_link_to 'Users', users_path, :active => true
     
@@ -75,12 +75,12 @@ You can specify active and inactive css classes for links:
     active_link_to 'News', news_path, :class_inactive => 'disabled'
     # => <a href="/news" class="disabled">News</a>
     
-Sometimes you want to replace link with a span if it's active:
+Sometimes you want to replace link tag with a span if it's active:
     
     active_link_to 'Users', users_path, :disable_active => true
     # => <span class="active">Users</span>
     
-If you are constructing navigation links it's helpful to wrap links in another tag, like `<li>` maybe:
+If you are constructing navigation menu it might be helpful to wrap links in another tag, like `<li>`:
     
     active_link_to 'Users', users_path, :wrap_tag => :li
     # => <li class="active"><a href="/users">Users</a></li>
