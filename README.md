@@ -98,6 +98,12 @@ You may directly use methods that `active_link_to` relies on.
     active_link_to_class(users_path, :active => :inclusive)
     # => 'active'
 
+## Defaults
+
+You can set default using `ActiveLinkTo.defaults` attribute like this:
+
+    ActiveLinkTo.defaults = { :wrapper_tag => :li }
+
 ### Copyright
 
 Copyright (c) 2009 Oleg Khabarov, The Working Group Inc. See LICENSE for details.
