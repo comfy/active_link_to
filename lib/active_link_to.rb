@@ -1,6 +1,14 @@
 module ActiveLinkTo
-  
-  
+  class << self
+    def defaults
+      @defaults ||= {}
+    end
+
+    def defaults=(val)
+      @defaults = val
+    end
+  end
+
   # Wrapper around link_to. Accepts following params:
   #   :active         => Boolean | Symbol | Regex | Controller/Action Pair
   #   :class_active   => String
@@ -20,6 +28,9 @@ module ActiveLinkTo
       options       = args[1] || {}
       html_options  = args[2] || {}
     end
+
+    html_options = ActiveLinkTo.defaults.merge(html_options)
+
     url = url_for(options)
     
     active_options  = { }
