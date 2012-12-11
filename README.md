@@ -85,6 +85,12 @@ If you are constructing navigation menu it might be helpful to wrap links in ano
     active_link_to 'Users', users_path, :wrap_tag => :li
     # => <li class="active"><a href="/users">Users</a></li>
     
+Also helpful method to apply class at all times directly to `<a>` element when using :wrap_tag option:
+
+    active_link_to 'Users', users_path, :wrap_tag => :li, :link_class => 'primary'
+    # => <li class="active"><a href="/users" class="primary">Users</a></li>
+    # => <li><a href="/users" class="primary">Users</a></li>
+    
 ## Helper Methods
 You may directly use methods that `active_link_to` relies on. 
 
