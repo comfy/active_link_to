@@ -1,6 +1,6 @@
 module ActiveLinkTo
-  
-  
+
+
   # Wrapper around link_to. Accepts following params:
   #   :active         => Boolean | Symbol | Regex | Controller/Action Pair
   #   :class_active   => String
@@ -21,7 +21,7 @@ module ActiveLinkTo
       html_options  = args[2] || {}
     end
     url = url_for(options)
-    
+
     active_options  = { }
     link_options    = { }
     html_options.each do |k, v|
@@ -31,23 +31,23 @@ module ActiveLinkTo
         link_options[k] = v
       end
     end
-    
+
     css_class = link_options.delete(:class).to_s + ' '
     css_class << active_link_to_class(url, active_options)
     css_class.strip!
-    
+
     wrap_tag = active_options[:wrap_tag].present? ? active_options[:wrap_tag] : nil
     link_options[:class] = css_class if css_class.present? && !wrap_tag
-    
+
     link = if active_options[:active_disable] === true && is_active_link?(url, active_options[:active])
       content_tag(:span, name, link_options)
     else
       link_to(name, url, link_options)
     end
-    
+
     wrap_tag ? content_tag(wrap_tag, link, :class => css_class) : link
   end
-  
+
   # Returns css class name. Takes the link's URL and its params
   # Example usage:
   #   active_link_to_class('/root', :class_active => 'on', :class_inactive => 'off')
@@ -59,7 +59,7 @@ module ActiveLinkTo
       options[:class_inactive] || ''
     end
   end
-  
+
   # Returns true or false based on the provided path and condition
   # Possible condition values are:
   #                  Boolean -> true | false
@@ -76,7 +76,7 @@ module ActiveLinkTo
     url = url_for(url).sub(/\?.*/, '') # ignore GET params
     case condition
     when :inclusive, nil
-      !request.fullpath.match(/^#{Regexp.escape(url)}(\/.*|\?.*)?$/).blank?
+      !request.fullpath.match(/^#{Regexp.escape(url).chomp('/')}(\/.*|\?.*)?$/).blank?
     when :exclusive
       !request.fullpath.match(/^#{Regexp.escape(url)}\/?(\?.*)?$/).blank?
     when Regexp
@@ -92,7 +92,7 @@ module ActiveLinkTo
       false
     end
   end
-  
+
 end
 
 ActionView::Base.send :include, ActiveLinkTo
