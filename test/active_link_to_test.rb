@@ -46,7 +46,6 @@ class ActiveLinkToTest < Test::Unit::TestCase
     assert is_active_link?('/root?attr=example')
   end
 
-
   def test_is_active_link_symbol_exclusive
     request.fullpath = '/root'
     assert is_active_link?('/root', :exclusive)
@@ -101,7 +100,7 @@ class ActiveLinkToTest < Test::Unit::TestCase
   def test_active_link_to
     request.fullpath = '/root'
     link = active_link_to('label', '/root')
-    assert_equal '<a href="/root" class="active">label</a>', link
+    assert_equal '<a class="active" href="/root">label</a>', link
 
     link = active_link_to('label', '/other')
     assert_equal '<a href="/other">label</a>', link
@@ -110,19 +109,19 @@ class ActiveLinkToTest < Test::Unit::TestCase
   def test_active_link_to_with_existing_class
     request.fullpath = '/root'
     link = active_link_to('label', '/root', :class => 'current')
-    assert_equal '<a href="/root" class="current active">label</a>', link
+    assert_equal '<a class="current active" href="/root">label</a>', link
 
     link = active_link_to('label', '/other', :class => 'current')
-    assert_equal '<a href="/other" class="current">label</a>', link
+    assert_equal '<a class="current" href="/other">label</a>', link
   end
 
   def test_active_link_to_with_custom_classes
     request.fullpath = '/root'
     link = active_link_to('label', '/root', :class_active => 'on')
-    assert_equal '<a href="/root" class="on">label</a>', link
+    assert_equal '<a class="on" href="/root">label</a>', link
 
     link = active_link_to('label', '/other', :class_inactive => 'off')
-    assert_equal '<a href="/other" class="off">label</a>', link
+    assert_equal '<a class="off" href="/other">label</a>', link
   end
 
   def test_active_link_to_with_wrap_tag
@@ -147,7 +146,7 @@ class ActiveLinkToTest < Test::Unit::TestCase
     request.fullpath = '/root'
     params = { :class => 'testing', :active => :inclusive }
     out = active_link_to 'label', '/root', params
-    assert_equal '<a href="/root" class="testing active">label</a>', out
+    assert_equal '<a class="testing active" href="/root">label</a>', out
     assert_equal ({:class => 'testing', :active => :inclusive }), params
   end
 

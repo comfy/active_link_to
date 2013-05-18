@@ -1,6 +1,5 @@
 module ActiveLinkTo
-
-
+  
   # Wrapper around link_to. Accepts following params:
   #   :active         => Boolean | Symbol | Regex | Controller/Action Pair
   #   :class_active   => String
@@ -92,7 +91,6 @@ module ActiveLinkTo
       false
     end
   end
-
 end
 
 ActionView::Base.send :include, ActiveLinkTo
