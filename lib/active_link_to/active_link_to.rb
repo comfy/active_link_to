@@ -2,13 +2,11 @@ require 'ostruct'
 
 module ActiveLinkTo
 
-  # Example usage:
-  # ActiveLinkTo::config do |config|
-  #   config.active_options = {
-  #     active: true,
-  #     class_active: 'active'
-  #   }
-  # end
+  # Example usage (config/initializers/active_link_to.rb):
+  # ActiveLinkTo.config.active_options = {
+  #   active: true,
+  #   class_active: 'active'
+  # }
   def self.config
     @config ||= OpenStruct.new
   end
