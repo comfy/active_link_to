@@ -10,7 +10,7 @@ module ActiveLinkTo
   #   }
   # end
   def self.config
-    @config = OpenStruct.new
+    @config ||= OpenStruct.new
   end
   
   # Wrapper around link_to. Accepts following params:
