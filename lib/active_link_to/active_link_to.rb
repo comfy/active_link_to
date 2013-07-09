@@ -1,4 +1,15 @@
+require 'ostruct'
+
 module ActiveLinkTo
+
+  # Example usage (config/initializers/active_link_to.rb):
+  # ActiveLinkTo.config.active_options = {
+  #   active: true,
+  #   class_active: 'active'
+  # }
+  def self.config
+    @config ||= OpenStruct.new
+  end
   
   # Wrapper around link_to. Accepts following params:
   #   :active         => Boolean | Symbol | Regex | Controller/Action Pair
@@ -21,8 +32,8 @@ module ActiveLinkTo
     end
     url = url_for(options)
 
-    active_options  = { }
-    link_options    = { }
+    active_options  = ActiveLinkTo::config.active_options || { }
+    link_options    = ActiveLinkTo::config.link_options || { }
     html_options.each do |k, v|
       if [:active, :class_active, :class_inactive, :active_disable, :wrap_tag].member?(k)
         active_options[k] = v
@@ -51,7 +62,7 @@ module ActiveLinkTo
   # Example usage:
   #   active_link_to_class('/root', :class_active => 'on', :class_inactive => 'off')
   #
-  def active_link_to_class(url, options = {})
+  def active_link_to_class(url, options = ActiveLinkTo::config.active_options || {})
     if is_active_link?(url, options[:active])
       options[:class_active] || 'active'
     else
