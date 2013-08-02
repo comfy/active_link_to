@@ -93,7 +93,7 @@ active_link_to 'News', news_path, :class_inactive => 'disabled'
 Sometimes you want to replace link tag with a span if it's active:
 
 ```ruby
-active_link_to 'Users', users_path, :disable_active => true
+active_link_to 'Users', users_path, :active_disable => true
 # => <span class="active">Users</span>
 ```
 
