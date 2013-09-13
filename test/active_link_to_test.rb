@@ -150,4 +150,12 @@ class ActiveLinkToTest < Test::Unit::TestCase
     assert_equal ({:class => 'testing', :active => :inclusive }), params
   end
 
+  def test_no_empty_class_attribute
+    request.fullpath = '/root'
+    link = active_link_to('label', '/root', :wrap_tag => :li)
+    assert_equal '<li class="active"><a class="active" href="/root">label</a></li>', link
+
+    link = active_link_to('label', '/other', :wrap_tag => :li)
+    assert_equal '<li><a href="/other">label</a></li>', link
+  end
 end
