@@ -1,5 +1,5 @@
 module ActiveLinkTo
-  
+
   # Wrapper around link_to. Accepts following params:
   #   :active         => Boolean | Symbol | Regex | Controller/Action Pair
   #   :class_active   => String
@@ -50,7 +50,7 @@ module ActiveLinkTo
       link_to(name, url, link_options)
     end
 
-    wrap_tag ? content_tag(wrap_tag, link, :class => wrap_tag_class) : link
+    wrap_tag ? content_tag(wrap_tag, link, :class => (wrap_tag_class if wrap_tag_class.present?)) : link
   end
 
   # Returns css class name. Takes the link's URL and its params
