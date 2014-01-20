@@ -1,6 +1,7 @@
 require 'rubygems'
-require 'test/unit'
+require 'minitest/autorun'
 require 'action_controller'
+require 'action_view'
 
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
@@ -21,7 +22,7 @@ end
 
 ActiveLinkTo.send :include, FakeRequest
 
-class Test::Unit::TestCase
+class MiniTest::Test
   
   include ActionView::Helpers::UrlHelper
   include ActionView::Helpers::TagHelper

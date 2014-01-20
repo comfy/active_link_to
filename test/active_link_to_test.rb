@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class ActiveLinkToTest < Test::Unit::TestCase
+class ActiveLinkToTest < MiniTest::Test
 
   def test_is_active_link_booleans
     assert is_active_link?('/', true)
