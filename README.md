@@ -1,4 +1,4 @@
-# active_link_to [![Gem Version](https://badge.fury.io/rb/active_link_to.png)](http://rubygems.org/gems/active_link_to) [![Build Status](https://travis-ci.org/comfy/active_link_to.png?branch=master)](https://travis-ci.org/comfy/active_link_to)
+# active_link_to [![Gem Version](https://badge.fury.io/rb/active_link_to.png)](http://rubygems.org/gems/active_link_to) [![Build Status](https://travis-ci.org/comfy/active_link_to.png)](https://travis-ci.org/comfy/active_link_to)
 Creates a link tag of the given name using a URL created by the set of options. Please see documentation for [link_to](http://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-link_to), as `active_link_to` is basically a wrapper for it. This method accepts an optional :active parameter that dictates if the given link will have an extra css class attached that marks it as 'active'.
 
 ## Install
