@@ -24,19 +24,25 @@ module ActiveLinkTo
     active_options  = { }
     link_options    = { }
     html_options.each do |k, v|
-      if [:active, :class_active, :class_inactive, :active_disable, :wrap_tag, :wrap_tag_css].member?(k)
+      if [:active, :class_active, :class_inactive, :active_disable, :wrap_tag, :wrap_tag_class].member?(k)
         active_options[k] = v
       else
         link_options[k] = v
       end
     end
 
-    css_class = link_options.delete(:class).to_s + ' '
-    css_class << active_link_to_class(url, active_options)
-    css_class.strip!
+    css_class = "#{link_options.delete(:class).to_s} "
 
     wrap_tag = active_options[:wrap_tag]
-    wrap_tag_css = active_options[:wrap_tag_css]
+    wrap_tag_css_class = "#{active_options[:wrap_tag_class]} "
+
+    if wrap_tag.present?
+      wrap_tag_css_class << active_link_to_class(url, active_options)
+      wrap_tag_css_class.strip!
+    else
+      css_class << active_link_to_class(url, active_options)
+      css_class.strip!
+    end
 
     link_options[:class] = css_class
 
@@ -46,7 +52,7 @@ module ActiveLinkTo
       link_to(name, url, link_options)
     end
 
-    wrap_tag ? content_tag(wrap_tag, link, :class =>  wrap_tag_css ) : link
+    wrap_tag ? content_tag(wrap_tag, link, :class => wrap_tag_css_class ) : link
  
   end
 
