@@ -103,7 +103,14 @@ If you are constructing navigation menu it might be helpful to wrap links in ano
 active_link_to 'Users', users_path, :wrap_tag => :li
 # => <li class="active"><a href="/users">Users</a></li>
 ```
-    
+
+You can specify HTTP method
+
+```ruby
+active_link_to 'Logout', destroy_user_session_path, :method => :delete
+# => <a data-method="delete" href="/users/sign_out">Logout</a>
+```
+
 ## Helper Methods
 You may directly use methods that `active_link_to` relies on. 
 
