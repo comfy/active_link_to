@@ -22,6 +22,31 @@ active_link_to 'Users', '/users', :active => :inclusive
 # => <a href="/users" class="active">Users</a>
 ```
 
+## Wrapper
+
+Use `:wrap_tag` and `:wrap_tag_class` options to add a wrapper to the active link.
+
+For example,
+
+```ruby
+active_link_to members_path, :wrap_tag => :li, :wrap_tag_class => "menu-item", :class => "menu-item-label", :active => :exclusive do %>
+  "Employees"
+end
+```
+
+generates:
+
+```html
+<li class="menu-item active">
+  <a class="menu-item-label" href="/members">
+    Employees
+  </a>
+</li>
+```
+
+Please note that the `active` class is added to the wrapper, instead of the link.
+
+
 ## Active Options
 Here's a list of available options that can be used as the `:active` value
 
