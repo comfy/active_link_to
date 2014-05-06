@@ -1,5 +1,5 @@
 module ActiveLinkTo
-  
+
   # Wrapper around link_to. Accepts following params:
   #   :active         => Boolean | Symbol | Regex | Controller/Action Pair
   #   :class_active   => String
@@ -89,6 +89,10 @@ module ActiveLinkTo
       true
     when FalseClass
       false
+    when Hash
+      condition.all? do |key, value|
+        params[key] == value
+      end
     end
   end
 end
