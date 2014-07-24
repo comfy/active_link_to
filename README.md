@@ -101,7 +101,7 @@ If you are constructing navigation menu it might be helpful to wrap links in ano
 
 ```ruby
 active_link_to 'Users', users_path, :wrap_tag => :li
-# => <li class="active"><a href="/users">Users</a></li>
+# => <li class="active"><a href="/users" class="active">Users</a></li>
 ```
     
 ## Helper Methods
