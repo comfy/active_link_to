@@ -1,7 +1,7 @@
 require_relative 'test_helper'
 
 class ActiveLinkToTest < MiniTest::Test
-  
+
   def test_is_active_link_booleans_test
     assert is_active_link?('/', true)
     assert !is_active_link?('/', false)
@@ -60,6 +60,20 @@ class ActiveLinkToTest < MiniTest::Test
   def test_is_active_link_symbol_exclusive_with_link_params
     request.fullpath = '/root?param=test'
     assert is_active_link?('/root?attr=example', :exclusive)
+  end
+
+  def test_is_active_link_symbol_exact
+    request.fullpath = '/root?param=test'
+    assert is_active_link?('/root?param=test', :exact)
+
+    request.fullpath = '/root?param=test'
+    refute is_active_link?('/root?param=exact', :exact)
+
+    request.fullpath = '/root'
+    refute is_active_link?('/root?param=test', :exact)
+
+    request.fullpath = '/root?param=test'
+    refute is_active_link?('/root', :exact)
   end
 
   def test_is_active_link_regex
