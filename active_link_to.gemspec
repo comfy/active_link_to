@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.version       = ActiveLinkTo::VERSION
   s.authors       = ["Oleg Khabarov"]
   s.email         = ["oleg@khabarov.ca"]
-  s.homepage      = "http://github.com/twg/active_link_to"
+  s.homepage      = "http://github.com/comfy/active_link_to"
   s.summary       = "ActionView helper to render currently active links"
   s.description   = "Helpful method when you need to add some logic that figures out if the link (or more often navigation item) is selected based on the current page or other arbitrary condition"
   
