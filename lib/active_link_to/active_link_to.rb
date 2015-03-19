@@ -1,5 +1,5 @@
 module ActiveLinkTo
-  
+
   # Wrapper around link_to. Accepts following params:
   #   :active         => Boolean | Symbol | Regex | Controller/Action Pair
   #   :class_active   => String
@@ -73,13 +73,14 @@ module ActiveLinkTo
   #
   def is_active_link?(url, condition = nil)
     url = url_for(url).sub(/\?.*/, '') # ignore GET params
+    original_fullpath = request.original_fullpath.sub(/\?.*/, '')
     case condition
     when :inclusive, nil
-      !request.fullpath.match(/^#{Regexp.escape(url).chomp('/')}(\/.*|\?.*)?$/).blank?
+      !original_fullpath.match(/^#{Regexp.escape(url).chomp('/')}(\/.*|\?.*)?$/).blank?
     when :exclusive
-      !request.fullpath.match(/^#{Regexp.escape(url)}\/?(\?.*)?$/).blank?
+      !original_fullpath.match(/^#{Regexp.escape(url)}\/?(\?.*)?$/).blank?
     when Regexp
-      !request.fullpath.match(condition).blank?
+      !original_fullpath.match(condition).blank?
     when Array
       controllers = [*condition[0]]
       actions     = [*condition[1]]
