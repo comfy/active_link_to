@@ -102,6 +102,24 @@ class ActiveLinkToTest < MiniTest::Test
     assert !is_active_link?('/', ['controller', 'action_a'])
   end
 
+  def test_is_active_link_hash
+    params[:a] = 1
+
+    assert is_active_link?('/', {:a => 1})
+    assert is_active_link?('/', {:a => 1, :b => nil})
+
+    assert !is_active_link?('/', {:a => 1, :b => 2})
+    assert !is_active_link?('/', {:a => 2})
+
+    params[:b] = 2
+
+    assert is_active_link?('/', {:a => 1, :b => 2})
+    assert is_active_link?('/', {:a => 1, :b => 2, :c => nil})
+
+    assert is_active_link?('/', {:a => 1})
+    assert is_active_link?('/', {:b => 2})
+  end
+
   def test_active_link_to_class
     request.fullpath = '/root'
     assert_equal 'active', active_link_to_class('/root')

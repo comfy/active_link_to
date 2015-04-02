@@ -65,7 +65,9 @@ module ActiveLinkTo
   #                   Symbol -> :exclusive | :inclusive
   #                    Regex -> /regex/
   #   Controller/Action Pair -> [[:controller], [:action_a, :action_b]]
+  #
   # Example usage:
+  #
   #   is_active_link?('/root', true)
   #   is_active_link?('/root', :exclusive)
   #   is_active_link?('/root', /^\/root/)
@@ -93,6 +95,10 @@ module ActiveLinkTo
       true
     when FalseClass
       false
+    when Hash
+      condition.all? do |key, value|
+        params[key].to_s == value.to_s
+      end
     end
   end
 end
