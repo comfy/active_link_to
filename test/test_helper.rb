@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'minitest/autorun'
+require 'uri'
 require 'action_view'
 
 $LOAD_PATH.unshift(File.dirname(__FILE__))

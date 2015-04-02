@@ -162,6 +162,6 @@ class ActiveLinkToTest < MiniTest::Test
   def test_active_link_to_with_url
     request.fullpath = '/root'
     link = active_link_to('label', 'http://example.com/root')
-    assert_equal '<a class="active" href="http://example.com/root">label</a>', link
+    assert_html link, 'a.active[href="http://example.com/root"]', 'label'
   end
 end
