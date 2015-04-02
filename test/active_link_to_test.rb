@@ -1,7 +1,7 @@
 require_relative 'test_helper'
 
 class ActiveLinkToTest < MiniTest::Test
-  
+
   def test_is_active_link_booleans_test
     assert is_active_link?('/', true)
     assert !is_active_link?('/', false)
@@ -100,62 +100,62 @@ class ActiveLinkToTest < MiniTest::Test
   def test_active_link_to
     request.fullpath = '/root'
     link = active_link_to('label', '/root')
-    assert_equal '<a href="/root" class="active">label</a>', link
+    assert_html link, 'a.active[href="/root"]', 'label'
 
     link = active_link_to('label', '/other')
-    assert_equal '<a href="/other">label</a>', link
+    assert_html link, 'a[href="/other"]', 'label'
   end
 
   def test_active_link_to_with_existing_class
     request.fullpath = '/root'
     link = active_link_to('label', '/root', :class => 'current')
-    assert_equal '<a href="/root" class="current active">label</a>', link
+    assert_html link, 'a.current.active[href="/root"]', 'label'
 
     link = active_link_to('label', '/other', :class => 'current')
-    assert_equal '<a href="/other" class="current">label</a>', link
+    assert_html link, 'a.current[href="/other"]', 'label'
   end
 
   def test_active_link_to_with_custom_classes
     request.fullpath = '/root'
     link = active_link_to('label', '/root', :class_active => 'on')
-    assert_equal '<a href="/root" class="on">label</a>', link
+    assert_html link, 'a.on[href="/root"]', 'label'
 
     link = active_link_to('label', '/other', :class_inactive => 'off')
-    assert_equal '<a href="/other" class="off">label</a>', link
+    assert_html link, 'a.off[href="/other"]', 'label'
   end
 
   def test_active_link_to_with_wrap_tag
     request.fullpath = '/root'
     link = active_link_to('label', '/root', :wrap_tag => :li)
-    assert_equal '<li class="active"><a href="/root" class="active">label</a></li>', link
+    assert_html link, 'li.active a.active[href="/root"]', 'label'
 
     link = active_link_to('label', '/root', :wrap_tag => :li, :active_disable => true)
-    assert_equal '<li class="active"><span class="active">label</span></li>', link
+    assert_html link, 'li.active span.active', 'label'
 
     link = active_link_to('label', '/root', :wrap_tag => :li, :class => 'testing')
-    assert_equal '<li class="testing active"><a href="/root" class="testing active">label</a></li>', link
+    assert_html link, 'li.testing.active a.testing.active[href="/root"]', 'label'
   end
 
   def test_active_link_to_with_active_disable
     request.fullpath = '/root'
     link = active_link_to('label', '/root', :active_disable => true)
-    assert_equal '<span class="active">label</span>', link
+    assert_html link, 'span.active', 'label'
   end
 
   def test_should_not_modify_passed_params
     request.fullpath = '/root'
     params = { :class => 'testing', :active => :inclusive }
     out = active_link_to 'label', '/root', params
-    assert_equal '<a href="/root" class="testing active">label</a>', out
+    assert_html out, 'a.testing.active[href="/root"]', 'label'
     assert_equal ({:class => 'testing', :active => :inclusive }), params
   end
 
   def test_no_empty_class_attribute
     request.fullpath = '/root'
     link = active_link_to('label', '/root', :wrap_tag => :li)
-    assert_equal '<li class="active"><a href="/root" class="active">label</a></li>', link
+    assert_html link, 'li.active a.active[href="/root"]', 'label'
 
     link = active_link_to('label', '/other', :wrap_tag => :li)
-    assert_equal '<li><a href="/other">label</a></li>', link
+    assert_html link, 'li a[href="/other"]', 'label'
   end
 end

@@ -1,6 +1,5 @@
 require 'rubygems'
 require 'minitest/autorun'
-require 'action_controller'
 require 'action_view'
 
 $LOAD_PATH.unshift(File.dirname(__FILE__))
@@ -23,9 +22,16 @@ end
 ActiveLinkTo.send :include, FakeRequest
 
 class MiniTest::Test
-  
+
   include ActionView::Helpers::UrlHelper
   include ActionView::Helpers::TagHelper
   include ActiveLinkTo
-  
+
+  def assert_html(html, selector, value = nil)
+    doc = Nokogiri::HTML(html)
+    element = doc.at_css(selector)
+    assert element, "No element found at: `#{selector}`"
+    assert_equal value, element.text if value
+  end
+
 end
