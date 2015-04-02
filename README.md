@@ -125,4 +125,4 @@ active_link_to_class(users_path, :active => :inclusive)
 
 ### Copyright
 
-Copyright (c) 2009-14 Oleg Khabarov, The Working Group Inc. See LICENSE for details.
+Copyright (c) 2009-15 Oleg Khabarov, The Working Group Inc. See LICENSE for details.
