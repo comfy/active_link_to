@@ -1,5 +1,5 @@
 module ActiveLinkTo
-  
+
   # Wrapper around link_to. Accepts following params:
   #   :active         => Boolean | Symbol | Regex | Controller/Action Pair
   #   :class_active   => String
@@ -72,6 +72,7 @@ module ActiveLinkTo
   #   is_active_link?('/root', ['users', ['show', 'edit']])
   #
   def is_active_link?(url, condition = nil)
+    original_url = url
     url = url_for(url).sub(/\?.*/, '') # ignore GET params
     url = URI::parse(url).path
     case condition
@@ -79,6 +80,8 @@ module ActiveLinkTo
       !request.fullpath.match(/^#{Regexp.escape(url).chomp('/')}(\/.*|\?.*)?$/).blank?
     when :exclusive
       !request.fullpath.match(/^#{Regexp.escape(url)}\/?(\?.*)?$/).blank?
+    when :exact
+      request.fullpath == original_url
     when Regexp
       !request.fullpath.match(condition).blank?
     when Array

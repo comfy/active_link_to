@@ -29,7 +29,7 @@ Here's a list of available options that can be used as the `:active` value
 
 ```
 * Boolean                 -> true | false
-* Symbol                  -> :exclusive | :inclusive
+* Symbol                  -> :exclusive | :inclusive | :exact
 * Regex                   -> /regex/
 * Controller/Action Pair  -> [[:controller], [:action_a, :action_b]]
 ```
@@ -61,6 +61,16 @@ that as well. Let's try to activate links urls of which begin with 'use':
 active_link_to 'Users', users_path, :active => /^\/use/
 ```
 
+<<<<<<< HEAD
+=======
+If we need to set link to be active based on an exact match, we can do
+that as well:
+
+```ruby
+active_link_to 'Users', users_path, :active => :exact
+```
+
+>>>>>>> 9b3fade1c1ee31dc033ff2300e22cffa63865c13
 What if we need to mark link active for all URLs that match a particular controller,
 or action, or both? Or any number of those at the same time? Sure, why not:
 
