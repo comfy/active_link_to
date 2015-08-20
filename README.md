@@ -28,10 +28,11 @@ active_link_to 'Users', '/users', :active => :inclusive
 Here's a list of available options that can be used as the `:active` value
 
 ```
-* Boolean                 -> true | false
-* Symbol                  -> :exclusive | :inclusive | :exact
-* Regex                   -> /regex/
-* Controller/Action Pair  -> [[:controller], [:action_a, :action_b]]
+* Boolean                          -> true | false
+* Symbol                           -> :exclusive | :inclusive | :exact
+* Regex                            -> /regex/
+* Controller/Action Pair           -> [[:controller], [:action_a, :action_b]]
+* Controller/Specific Action Pair  -> [controller: :action_a, controller_b: :action_b]
 ```
 
 ## More Examples
@@ -74,6 +75,9 @@ or action, or both? Or any number of those at the same time? Sure, why not:
 ```ruby
 # For matching multiple controllers and actions:
 active_link_to 'User Edit', edit_user_path(@user), :active => [['people', 'news'], ['show', 'edit']]
+
+# For matching specific controllers and actions:
+active_link_to 'User Edit', edit_user_path(@user), :active => [people: :show, news: :edit]
 
 # for matching all actions under given controllers:
 active_link_to 'User Edit', edit_user_path(@user), :active => [['people', 'news'], []]

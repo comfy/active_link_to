@@ -89,7 +89,10 @@ module ActiveLinkTo
       controllers = [*condition[0]]
       actions     = [*condition[1]]
       (controllers.blank? || controllers.member?(params[:controller])) &&
-      (actions.blank? || actions.member?(params[:action]))
+      (actions.blank? || actions.member?(params[:action])) ||
+      controllers.any? do |controller, action|
+        params[:controller] == controller.to_s && params[:action] == action.to_s
+      end
     when TrueClass
       true
     when FalseClass
