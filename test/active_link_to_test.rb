@@ -4,7 +4,7 @@ class ActiveLinkToTest < MiniTest::Test
 
   def test_is_active_link_booleans_test
     assert is_active_link?('/', true)
-    assert !is_active_link?('/', false)
+    refute is_active_link?('/', false)
   end
 
   def test_is_active_link_symbol_inclusive
@@ -18,7 +18,7 @@ class ActiveLinkToTest < MiniTest::Test
     assert is_active_link?('/root', :inclusive)
 
     request.fullpath = '/other'
-    assert !is_active_link?('/root', :inclusive)
+    refute is_active_link?('/root', :inclusive)
   end
 
   def test_is_active_link_symbol_inclusive_implied
@@ -28,7 +28,7 @@ class ActiveLinkToTest < MiniTest::Test
 
   def test_is_active_link_symbol_inclusive_similar_path
     request.fullpath = '/root/abc'
-    assert !is_active_link?('/root/a', :inclusive)
+    refute is_active_link?('/root/a', :inclusive)
   end
 
   def test_is_active_link_symbol_inclusive_with_last_slash
@@ -38,7 +38,7 @@ class ActiveLinkToTest < MiniTest::Test
 
   def test_is_active_link_symbol_inclusive_with_last_slash_and_similar_path
     request.fullpath = '/root_path'
-    assert !is_active_link?('/root/')
+    refute is_active_link?('/root/')
   end
 
   def test_is_active_link_symbol_inclusive_with_link_params
@@ -54,7 +54,7 @@ class ActiveLinkToTest < MiniTest::Test
     assert is_active_link?('/root', :exclusive)
 
     request.fullpath = '/root/child'
-    assert !is_active_link?('/root', :exclusive)
+    refute is_active_link?('/root', :exclusive)
   end
 
   def test_is_active_link_symbol_exclusive_with_link_params
@@ -84,7 +84,7 @@ class ActiveLinkToTest < MiniTest::Test
     assert is_active_link?('/', /^\/r/)
 
     request.fullpath = '/other'
-    assert !is_active_link?('/', /^\/r/)
+    refute is_active_link?('/', /^\/r/)
   end
 
   def test_is_active_link_array
@@ -98,8 +98,8 @@ class ActiveLinkToTest < MiniTest::Test
     assert is_active_link?('/', ['controller', ['action', 'action_b']])
     assert is_active_link?('/', [['controller', 'controller_b'], 'action'])
 
-    assert !is_active_link?('/', ['controller_a', 'action'])
-    assert !is_active_link?('/', ['controller', 'action_a'])
+    refute is_active_link?('/', ['controller_a', 'action'])
+    refute is_active_link?('/', ['controller', 'action_a'])
   end
 
   def test_is_active_link_hash
@@ -108,8 +108,8 @@ class ActiveLinkToTest < MiniTest::Test
     assert is_active_link?('/', {:a => 1})
     assert is_active_link?('/', {:a => 1, :b => nil})
 
-    assert !is_active_link?('/', {:a => 1, :b => 2})
-    assert !is_active_link?('/', {:a => 2})
+    refute is_active_link?('/', {:a => 1, :b => 2})
+    refute is_active_link?('/', {:a => 2})
 
     params[:b] = 2
 
