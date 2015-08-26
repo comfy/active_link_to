@@ -1,10 +1,7 @@
-require 'rubygems'
+require 'bundler/setup'
 require 'minitest/autorun'
 require 'uri'
 require 'action_view'
-
-$LOAD_PATH.unshift(File.dirname(__FILE__))
-$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 require 'active_link_to'
 
 # need this to simulate requests that drive active_link_helper
