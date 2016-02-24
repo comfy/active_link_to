@@ -75,7 +75,7 @@ module ActiveLinkTo
   #
   def is_active_link?(url, condition = nil)
     original_url = url
-    url = URI::parse(url).path
+    url = URI::parse(url).path.to_s
     case condition
     when :inclusive, nil
       !request.fullpath.match(/^#{Regexp.escape(url).chomp('/')}(\/.*|\?.*)?$/).blank?
