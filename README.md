@@ -36,7 +36,7 @@ Here's a list of available options that can be used as the `:active` value
 
 ## More Examples
 Most of the functionality of `active_link_to` depends on the current
-url. Specifically, `request.fullpath` value. We covered the basic example
+url. Specifically, `request.original_fullpath` value. We covered the basic example
 already, so let's try something more fun.
 
 We want to highlight a link that matches immediate url, but not the children
