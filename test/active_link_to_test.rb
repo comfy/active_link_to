@@ -102,6 +102,21 @@ class ActiveLinkToTest < MiniTest::Test
     refute is_active_link?('/', ['controller', 'action_a'])
   end
 
+  def test_is_active_link_array_with_hash
+    params[:controller], params[:action] = 'controller', 'action'
+
+    assert is_active_link?('/', [controller: :action])
+    assert is_active_link?('/', ['controller' => 'action'])
+
+    refute is_active_link?('/', [controller_b: :action])
+    refute is_active_link?('/', [controller: :action_b])
+    refute is_active_link?('/', [controller_b: :action_b])
+
+    params[:controller], params[:action] = 'controller_b', 'action_b'
+
+    assert is_active_link?('/', [controller: :action, controller_b: :action_b])
+  end
+
   def test_is_active_link_hash
     params[:a] = 1
 
