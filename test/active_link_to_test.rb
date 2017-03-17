@@ -190,7 +190,7 @@ class ActiveLinkToTest < MiniTest::Test
     assert_equal ({class: 'testing', active: :inclusive }), params
   end
 
-  def test_no_empty_class_attribute
+  def test_active_link_to_wrap_tag_class
     set_fullpath('/root')
     link = active_link_to('label', '/root', wrap_tag: :li)
     assert_html link, 'li.active a.active[href="/root"]', 'label'
@@ -199,9 +199,15 @@ class ActiveLinkToTest < MiniTest::Test
     assert_html link, 'li a[href="/other"]', 'label'
   end
 
-  def test_active_link_to_with_url
+  def test_active_link_to_with_aria
     set_fullpath('/root')
-    link = active_link_to('label', 'http://example.com/root')
-    assert_html link, 'a.active[href="http://example.com/root"][aria-current="page"]', 'label'
+    link = active_link_to('label', '/root')
+    assert_html link, 'a.active[href="/root"][aria-current="page"]', 'label'
+  end
+
+  def test_active_link_to_with_utf8
+    set_fullpath('/äöü')
+    link = active_link_to('label', '/äöü')
+    assert_html link, 'a.active[href="/äöü"]', 'label'
   end
 end
