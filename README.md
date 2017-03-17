@@ -4,7 +4,7 @@
 Creates a link tag of the given name using a URL created by the set of options. Please see documentation for [link_to](http://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-link_to), as `active_link_to` is basically a wrapper for it. This method accepts an optional :active parameter that dictates if the given link will have an extra css class attached that marks it as 'active'.
 
 ## Install
-When installing for Rails 3 applications add this to the Gemfile: `gem 'active_link_to'` and run `bundle install`.
+When installing for Rails 3/4/5 applications add this to the Gemfile: `gem 'active_link_to'` and run `bundle install`.
 
 For older Rails apps add `config.gem 'active_link_to'` in config/environment.rb and run `rake gems:install`. Or just checkout this repo into /vendor/plugins directory.
 
