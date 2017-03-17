@@ -7,8 +7,8 @@ module ActiveLinkTo
   #   :disable_active => Boolean
   #   :wrap_tag       => Symbol
   # Example usage:
-  #   active_link_to('/users', :class_active => 'enabled')
-  #   active_link_to(users_path, :active => :exclusive, :wrap_tag => :li)
+  #   active_link_to('/users', class_active: 'enabled')
+  #   active_link_to(users_path, active: :exclusive, wrap_tag: :li)
   def active_link_to(*args, &block)
     if block_given?
       name          = capture(&block)
@@ -44,12 +44,12 @@ module ActiveLinkTo
       link_to(name, url, link_options)
     end
 
-    wrap_tag ? content_tag(wrap_tag, link, :class => (css_class if css_class.present?)) : link
+    wrap_tag ? content_tag(wrap_tag, link, class: (css_class if css_class.present?)) : link
   end
 
   # Returns css class name. Takes the link's URL and its params
   # Example usage:
-  #   active_link_to_class('/root', :class_active => 'on', :class_inactive => 'off')
+  #   active_link_to_class('/root', class_active: 'on', class_inactive: 'off')
   #
   def active_link_to_class(url, options = {})
     if is_active_link?(url, options[:active])

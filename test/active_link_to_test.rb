@@ -105,19 +105,19 @@ class ActiveLinkToTest < MiniTest::Test
   def test_is_active_link_hash
     params[:a] = 1
 
-    assert is_active_link?('/', {:a => 1})
-    assert is_active_link?('/', {:a => 1, :b => nil})
+    assert is_active_link?('/', {a: 1})
+    assert is_active_link?('/', {a: 1, b: nil})
 
-    refute is_active_link?('/', {:a => 1, :b => 2})
-    refute is_active_link?('/', {:a => 2})
+    refute is_active_link?('/', {a: 1, b: 2})
+    refute is_active_link?('/', {a: 2})
 
     params[:b] = 2
 
-    assert is_active_link?('/', {:a => 1, :b => 2})
-    assert is_active_link?('/', {:a => 1, :b => 2, :c => nil})
+    assert is_active_link?('/', {a: 1, b: 2})
+    assert is_active_link?('/', {a: 1, b: 2, c: nil})
 
-    assert is_active_link?('/', {:a => 1})
-    assert is_active_link?('/', {:b => 2})
+    assert is_active_link?('/', {a: 1})
+    assert is_active_link?('/', {b: 2})
   end
 
   def test_is_active_link_with_memoization
@@ -131,10 +131,10 @@ class ActiveLinkToTest < MiniTest::Test
   def test_active_link_to_class
     set_fullpath('/root')
     assert_equal 'active', active_link_to_class('/root')
-    assert_equal 'on', active_link_to_class('/root', :class_active => 'on')
+    assert_equal 'on', active_link_to_class('/root', class_active: 'on')
 
     assert_equal '', active_link_to_class('/other')
-    assert_equal 'off', active_link_to_class('/other', :class_inactive => 'off')
+    assert_equal 'off', active_link_to_class('/other', class_inactive: 'off')
   end
 
   def test_active_link_to
@@ -148,54 +148,54 @@ class ActiveLinkToTest < MiniTest::Test
 
   def test_active_link_to_with_existing_class
     set_fullpath('/root')
-    link = active_link_to('label', '/root', :class => 'current')
+    link = active_link_to('label', '/root', class: 'current')
     assert_html link, 'a.current.active[href="/root"]', 'label'
 
-    link = active_link_to('label', '/other', :class => 'current')
+    link = active_link_to('label', '/other', class: 'current')
     assert_html link, 'a.current[href="/other"]', 'label'
   end
 
   def test_active_link_to_with_custom_classes
     set_fullpath('/root')
-    link = active_link_to('label', '/root', :class_active => 'on')
+    link = active_link_to('label', '/root', class_active: 'on')
     assert_html link, 'a.on[href="/root"]', 'label'
 
-    link = active_link_to('label', '/other', :class_inactive => 'off')
+    link = active_link_to('label', '/other', class_inactive: 'off')
     assert_html link, 'a.off[href="/other"]', 'label'
   end
 
   def test_active_link_to_with_wrap_tag
     set_fullpath('/root')
-    link = active_link_to('label', '/root', :wrap_tag => :li)
+    link = active_link_to('label', '/root', wrap_tag: :li)
     assert_html link, 'li.active a.active[href="/root"]', 'label'
 
-    link = active_link_to('label', '/root', :wrap_tag => :li, :active_disable => true)
+    link = active_link_to('label', '/root', wrap_tag: :li, active_disable: true)
     assert_html link, 'li.active span.active', 'label'
 
-    link = active_link_to('label', '/root', :wrap_tag => :li, :class => 'testing')
+    link = active_link_to('label', '/root', wrap_tag: :li, class: 'testing')
     assert_html link, 'li.testing.active a.testing.active[href="/root"]', 'label'
   end
 
   def test_active_link_to_with_active_disable
     set_fullpath('/root')
-    link = active_link_to('label', '/root', :active_disable => true)
+    link = active_link_to('label', '/root', active_disable: true)
     assert_html link, 'span.active', 'label'
   end
 
   def test_should_not_modify_passed_params
     set_fullpath('/root')
-    params = { :class => 'testing', :active => :inclusive }
+    params = {class: 'testing', active: :inclusive}
     out = active_link_to 'label', '/root', params
     assert_html out, 'a.testing.active[href="/root"]', 'label'
-    assert_equal ({:class => 'testing', :active => :inclusive }), params
+    assert_equal ({class: 'testing', active: :inclusive }), params
   end
 
   def test_no_empty_class_attribute
     set_fullpath('/root')
-    link = active_link_to('label', '/root', :wrap_tag => :li)
+    link = active_link_to('label', '/root', wrap_tag: :li)
     assert_html link, 'li.active a.active[href="/root"]', 'label'
 
-    link = active_link_to('label', '/other', :wrap_tag => :li)
+    link = active_link_to('label', '/other', wrap_tag: :li)
     assert_html link, 'li a[href="/other"]', 'label'
   end
 

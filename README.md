@@ -20,7 +20,7 @@ active_link_to 'Users', '/users'
 This is exactly the same as:
 
 ```ruby
-active_link_to 'Users', '/users', :active => :inclusive
+active_link_to 'Users', '/users', active: :inclusive
 # => <a href="/users" class="active">Users</a>
 ```
 
@@ -44,13 +44,13 @@ nodes. Most commonly used for 'home' links.
 
 ```ruby
 # For URL: /users will be active
-active_link_to 'Users', users_path, :active => :exclusive
+active_link_to 'Users', users_path, active: :exclusive
 # => <a href="/users" class="active">Users</a>
 ```
 
 ```ruby
 # But for URL: /users/123 it will not be active
-active_link_to 'Users', users_path, :active => :exclusive
+active_link_to 'Users', users_path, active: :exclusive
 # => <a href="/users">Users</a>
 ```
 
@@ -58,14 +58,14 @@ If we need to set link to be active based on some regular expression, we can do
 that as well. Let's try to activate links urls of which begin with 'use':
 
 ```ruby
-active_link_to 'Users', users_path, :active => /^\/use/
+active_link_to 'Users', users_path, active: /^\/use/
 ```
 
 If we need to set link to be active based on an exact match, we can do
 that as well:
 
 ```ruby
-active_link_to 'Users', users_path, :active => :exact
+active_link_to 'Users', users_path, active: :exact
 ```
 
 What if we need to mark link active for all URLs that match a particular controller,
@@ -73,43 +73,43 @@ or action, or both? Or any number of those at the same time? Sure, why not:
 
 ```ruby
 # For matching multiple controllers and actions:
-active_link_to 'User Edit', edit_user_path(@user), :active => [['people', 'news'], ['show', 'edit']]
+active_link_to 'User Edit', edit_user_path(@user), active: [['people', 'news'], ['show', 'edit']]
 
 # for matching all actions under given controllers:
-active_link_to 'User Edit', edit_user_path(@user), :active => [['people', 'news'], []]
+active_link_to 'User Edit', edit_user_path(@user), active: [['people', 'news'], []]
 
 # for matching all controllers for a particular action
-active_link_to 'User Edit', edit_user_path(@user), :active => [[], ['edit']]
+active_link_to 'User Edit', edit_user_path(@user), active: [[], ['edit']]
 ```
 
 Sometimes it should be as easy as giving link true or false value:
 
 ```ruby
-active_link_to 'Users', users_path, :active => true
+active_link_to 'Users', users_path, active: true
 ```
 
 ## More Options
 You can specify active and inactive css classes for links:
 
 ```ruby
-active_link_to 'Users', users_path, :class_active => 'enabled'
+active_link_to 'Users', users_path, class_active: 'enabled'
 # => <a href="/users" class="enabled">Users</a>
 
-active_link_to 'News', news_path, :class_inactive => 'disabled'
+active_link_to 'News', news_path, class_inactive: 'disabled'
 # => <a href="/news" class="disabled">News</a>
 ```
 
 Sometimes you want to replace link tag with a span if it's active:
 
 ```ruby
-active_link_to 'Users', users_path, :active_disable => true
+active_link_to 'Users', users_path, active_disable: true
 # => <span class="active">Users</span>
 ```
 
 If you are constructing navigation menu it might be helpful to wrap links in another tag, like `<li>`:
 
 ```ruby
-active_link_to 'Users', users_path, :wrap_tag => :li
+active_link_to 'Users', users_path, wrap_tag: :li
 # => <li class="active"><a href="/users" class="active">Users</a></li>
 ```
 
@@ -126,7 +126,7 @@ is_active_link?(users_path, :inclusive)
 `active_link_to_class` will return the css class:
 
 ```
-active_link_to_class(users_path, :active => :inclusive)
+active_link_to_class(users_path, active: :inclusive)
 # => 'active'
 ```
 
