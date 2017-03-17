@@ -28,7 +28,6 @@ active_link_to 'Users', '/users', active: :inclusive
 Here's a list of available options that can be used as the `:active` value
 
 ```
-<<<<<<< HEAD
 * Boolean                         -> true | false
 * Symbol                          -> :exclusive | :inclusive | :exact
 * Regex                           -> /regex/
