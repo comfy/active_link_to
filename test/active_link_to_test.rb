@@ -202,6 +202,6 @@ class ActiveLinkToTest < MiniTest::Test
   def test_active_link_to_with_url
     set_fullpath('/root')
     link = active_link_to('label', 'http://example.com/root')
-    assert_html link, 'a.active[href="http://example.com/root"]', 'label'
+    assert_html link, 'a.active[href="http://example.com/root"][aria-current="page"]', 'label'
   end
 end
