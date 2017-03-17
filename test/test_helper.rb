@@ -9,7 +9,7 @@ class MiniTest::Test
   # need this to simulate requests that drive active_link_helper
   module FakeRequest
     class Request
-      attr_accessor :fullpath
+      attr_accessor :original_fullpath
     end
     def request
       @request ||= Request.new
@@ -25,8 +25,8 @@ class MiniTest::Test
   include ActionView::Helpers::TagHelper
   include ActiveLinkTo
 
-  def set_fullpath(path, purge_cache = true)
-    request.fullpath = path
+  def set_path(path, purge_cache = true)
+    request.original_fullpath = path
     if purge_cache && defined?(@is_active_link)
       remove_instance_variable(:@is_active_link)
     end

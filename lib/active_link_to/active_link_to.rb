@@ -79,15 +79,16 @@ module ActiveLinkTo
     @is_active_link[[url, condition]] ||= begin
       original_url = url
       url = Addressable::URI::parse(url).path
+      path = request.original_fullpath
       case condition
       when :inclusive, nil
-        !request.fullpath.match(/^#{Regexp.escape(url).chomp('/')}(\/.*|\?.*)?$/).blank?
+        !path.match(/^#{Regexp.escape(url).chomp('/')}(\/.*|\?.*)?$/).blank?
       when :exclusive
-        !request.fullpath.match(/^#{Regexp.escape(url)}\/?(\?.*)?$/).blank?
+        !path.match(/^#{Regexp.escape(url)}\/?(\?.*)?$/).blank?
       when :exact
-        request.fullpath == original_url
+        path == original_url
       when Regexp
-        !request.fullpath.match(condition).blank?
+        !path.match(condition).blank?
       when Array
         controllers = [*condition[0]]
         actions     = [*condition[1]]
