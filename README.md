@@ -78,7 +78,7 @@ or action, or both? Or any number of those at the same time? Sure, why not:
 active_link_to 'User Edit', edit_user_path(@user), active: [['people', 'news'], ['show', 'edit']]
 
 # For matching specific controllers and actions:
-active_link_to 'User Edit', edit_user_path(@user), :active => [people: :show, news: :edit]
+active_link_to 'User Edit', edit_user_path(@user), active: [people: :show, news: :edit]
 
 # for matching all actions under given controllers:
 active_link_to 'User Edit', edit_user_path(@user), active: [['people', 'news'], []]
