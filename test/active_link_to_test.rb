@@ -182,13 +182,13 @@ class ActiveLinkToTest < MiniTest::Test
   def test_active_link_to_with_wrap_tag
     set_path('/root')
     link = active_link_to('label', '/root', wrap_tag: :li)
-    assert_html link, 'li.active a.active[href="/root"]', 'label'
+    assert_html link, 'li.active a[href="/root"]', 'label'
 
     link = active_link_to('label', '/root', wrap_tag: :li, active_disable: true)
-    assert_html link, 'li.active span.active', 'label'
+    assert_html link, 'li.active span', 'label'
 
     link = active_link_to('label', '/root', wrap_tag: :li, class: 'testing')
-    assert_html link, 'li.testing.active a.testing.active[href="/root"]', 'label'
+    assert_html link, 'li.active a.testing[href="/root"]', 'label'
   end
 
   def test_active_link_to_with_active_disable
@@ -208,7 +208,7 @@ class ActiveLinkToTest < MiniTest::Test
   def test_active_link_to_wrap_tag_class
     set_path('/root')
     link = active_link_to('label', '/root', wrap_tag: :li)
-    assert_html link, 'li.active a.active[href="/root"]', 'label'
+    assert_html link, 'li.active a[href="/root"]', 'label'
 
     link = active_link_to('label', '/other', wrap_tag: :li)
     assert_html link, 'li a[href="/other"]', 'label'
