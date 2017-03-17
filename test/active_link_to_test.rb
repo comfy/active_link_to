@@ -8,82 +8,82 @@ class ActiveLinkToTest < MiniTest::Test
   end
 
   def test_is_active_link_symbol_inclusive
-    request.fullpath = '/root'
+    set_fullpath('/root')
     assert is_active_link?('/root', :inclusive)
 
-    request.fullpath = '/root?param=test'
+    set_fullpath('/root?param=test')
     assert is_active_link?('/root', :inclusive)
 
-    request.fullpath = '/root/child/sub-child'
+    set_fullpath('/root/child/sub-child')
     assert is_active_link?('/root', :inclusive)
 
-    request.fullpath = '/other'
+    set_fullpath('/other')
     refute is_active_link?('/root', :inclusive)
   end
 
   def test_is_active_link_symbol_inclusive_implied
-    request.fullpath = '/root/child/sub-child'
+    set_fullpath('/root/child/sub-child')
     assert is_active_link?('/root')
   end
 
   def test_is_active_link_symbol_inclusive_similar_path
-    request.fullpath = '/root/abc'
+    set_fullpath('/root/abc')
     refute is_active_link?('/root/a', :inclusive)
   end
 
   def test_is_active_link_symbol_inclusive_with_last_slash
-    request.fullpath = '/root/abc'
+    set_fullpath('/root/abc')
     assert is_active_link?('/root/')
   end
 
   def test_is_active_link_symbol_inclusive_with_last_slash_and_similar_path
-    request.fullpath = '/root_path'
+    set_fullpath('/root_path')
     refute is_active_link?('/root/')
   end
 
   def test_is_active_link_symbol_inclusive_with_link_params
-    request.fullpath = '/root?param=test'
+    set_fullpath('/root?param=test')
     assert is_active_link?('/root?attr=example')
   end
 
   def test_is_active_link_symbol_exclusive
-    request.fullpath = '/root'
+    set_fullpath('/root')
     assert is_active_link?('/root', :exclusive)
 
-    request.fullpath = '/root?param=test'
+    set_fullpath('/root?param=test')
     assert is_active_link?('/root', :exclusive)
 
-    request.fullpath = '/root/child'
+    set_fullpath('/root/child')
     refute is_active_link?('/root', :exclusive)
   end
 
   def test_is_active_link_symbol_exclusive_with_link_params
-    request.fullpath = '/root?param=test'
+    set_fullpath('/root?param=test')
     assert is_active_link?('/root?attr=example', :exclusive)
   end
 
   def test_is_active_link_symbol_exact
-    request.fullpath = '/root?param=test'
+    set_fullpath('/root?param=test')
     assert is_active_link?('/root?param=test', :exact)
 
-    request.fullpath = '/root?param=test'
+    set_fullpath('/root?param=test')
     refute is_active_link?('/root?param=exact', :exact)
 
-    request.fullpath = '/root'
+    set_fullpath('/root')
     refute is_active_link?('/root?param=test', :exact)
 
-    request.fullpath = '/root?param=test'
+    set_fullpath('/root?param=test')
     refute is_active_link?('/root', :exact)
   end
 
   def test_is_active_link_regex
-    request.fullpath = '/root'
+    set_fullpath('/root')
     assert is_active_link?('/', /^\/root/)
 
-    request.fullpath = '/root/child'
+    set_fullpath('/root/child')
     assert is_active_link?('/', /^\/r/)
 
-    request.fullpath = '/other'
+    set_fullpath('/other')
     refute is_active_link?('/', /^\/r/)
   end
 
@@ -120,8 +120,16 @@ class ActiveLinkToTest < MiniTest::Test
     assert is_active_link?('/', {:b => 2})
   end
 
+  def test_is_active_link_with_memoization
+    set_fullpath('/')
+    assert is_active_link?('/', :exclusive)
+
+    set_fullpath('/other', false)
+    assert is_active_link?('/', :exclusive)
+  end
+
   def test_active_link_to_class
-    request.fullpath = '/root'
+    set_fullpath('/root')
     assert_equal 'active', active_link_to_class('/root')
     assert_equal 'on', active_link_to_class('/root', :class_active => 'on')
 
@@ -130,7 +138,7 @@ class ActiveLinkToTest < MiniTest::Test
   end
 
   def test_active_link_to
-    request.fullpath = '/root'
+    set_fullpath('/root')
     link = active_link_to('label', '/root')
     assert_html link, 'a.active[href="/root"]', 'label'
 
@@ -139,7 +147,7 @@ class ActiveLinkToTest < MiniTest::Test
   end
 
   def test_active_link_to_with_existing_class
-    request.fullpath = '/root'
+    set_fullpath('/root')
     link = active_link_to('label', '/root', :class => 'current')
     assert_html link, 'a.current.active[href="/root"]', 'label'
 
@@ -148,7 +156,7 @@ class ActiveLinkToTest < MiniTest::Test
   end
 
   def test_active_link_to_with_custom_classes
-    request.fullpath = '/root'
+    set_fullpath('/root')
     link = active_link_to('label', '/root', :class_active => 'on')
     assert_html link, 'a.on[href="/root"]', 'label'
 
@@ -157,7 +165,7 @@ class ActiveLinkToTest < MiniTest::Test
   end
 
   def test_active_link_to_with_wrap_tag
-    request.fullpath = '/root'
+    set_fullpath('/root')
     link = active_link_to('label', '/root', :wrap_tag => :li)
     assert_html link, 'li.active a.active[href="/root"]', 'label'
 
@@ -169,13 +177,13 @@ class ActiveLinkToTest < MiniTest::Test
   end
 
   def test_active_link_to_with_active_disable
-    request.fullpath = '/root'
+    set_fullpath('/root')
     link = active_link_to('label', '/root', :active_disable => true)
     assert_html link, 'span.active', 'label'
   end
 
   def test_should_not_modify_passed_params
-    request.fullpath = '/root'
+    set_fullpath('/root')
     params = { :class => 'testing', :active => :inclusive }
     out = active_link_to 'label', '/root', params
     assert_html out, 'a.testing.active[href="/root"]', 'label'
@@ -183,7 +191,7 @@ class ActiveLinkToTest < MiniTest::Test
   end
 
   def test_no_empty_class_attribute
-    request.fullpath = '/root'
+    set_fullpath('/root')
     link = active_link_to('label', '/root', :wrap_tag => :li)
     assert_html link, 'li.active a.active[href="/root"]', 'label'
 
@@ -192,7 +200,7 @@ class ActiveLinkToTest < MiniTest::Test
   end
 
   def test_active_link_to_with_url
-    request.fullpath = '/root'
+    set_fullpath('/root')
     link = active_link_to('label', 'http://example.com/root')
     assert_html link, 'a.active[href="http://example.com/root"]', 'label'
   end

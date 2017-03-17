@@ -74,29 +74,32 @@ module ActiveLinkTo
   #   is_active_link?('/root', ['users', ['show', 'edit']])
   #
   def is_active_link?(url, condition = nil)
-    original_url = url
-    url = URI::parse(url).path
-    case condition
-    when :inclusive, nil
-      !request.fullpath.match(/^#{Regexp.escape(url).chomp('/')}(\/.*|\?.*)?$/).blank?
-    when :exclusive
-      !request.fullpath.match(/^#{Regexp.escape(url)}\/?(\?.*)?$/).blank?
-    when :exact
-      request.fullpath == original_url
-    when Regexp
-      !request.fullpath.match(condition).blank?
-    when Array
-      controllers = [*condition[0]]
-      actions     = [*condition[1]]
-      (controllers.blank? || controllers.member?(params[:controller])) &&
-      (actions.blank? || actions.member?(params[:action]))
-    when TrueClass
-      true
-    when FalseClass
-      false
-    when Hash
-      condition.all? do |key, value|
-        params[key].to_s == value.to_s
+    @is_active_link ||= {}
+    @is_active_link[[url, condition]] ||= begin
+      original_url = url
+      url = URI::parse(url).path
+      case condition
+      when :inclusive, nil
+        !request.fullpath.match(/^#{Regexp.escape(url).chomp('/')}(\/.*|\?.*)?$/).blank?
+      when :exclusive
+        !request.fullpath.match(/^#{Regexp.escape(url)}\/?(\?.*)?$/).blank?
+      when :exact
+        request.fullpath == original_url
+      when Regexp
+        !request.fullpath.match(condition).blank?
+      when Array
+        controllers = [*condition[0]]
+        actions     = [*condition[1]]
+        (controllers.blank? || controllers.member?(params[:controller])) &&
+        (actions.blank? || actions.member?(params[:action]))
+      when TrueClass
+        true
+      when FalseClass
+        false
+      when Hash
+        condition.all? do |key, value|
+          params[key].to_s == value.to_s
+        end
       end
     end
   end
