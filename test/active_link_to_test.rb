@@ -135,6 +135,11 @@ class ActiveLinkToTest < MiniTest::Test
     assert is_active_link?('/', {b: 2})
   end
 
+  def test_is_active_link_with_anchor
+    set_path('/foo')
+    assert is_active_link?('/foo#anchor', :exclusive)
+  end
+
   def test_is_active_link_with_memoization
     set_path('/')
     assert is_active_link?('/', :exclusive)
