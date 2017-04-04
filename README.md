@@ -96,7 +96,7 @@ active_link_to 'Users', users_path, active: true
 If we need to set link to be active based on `params`, we can do that as well:
 
 ```ruby
-active_link_to 'Admin users', users_path(role_eq: 'admin'), :active => { role_eq: 'admin' }
+active_link_to 'Admin users', users_path(role_eq: 'admin'), active: { role_eq: 'admin' }
 ```
 
 ## More Options
