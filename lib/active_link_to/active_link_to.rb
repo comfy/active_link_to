@@ -10,15 +10,10 @@ module ActiveLinkTo
   #   active_link_to('/users', class_active: 'enabled')
   #   active_link_to(users_path, active: :exclusive, wrap_tag: :li)
   def active_link_to(*args, &block)
-    if block_given?
-      name          = capture(&block)
-      options       = args[0] || {}
-      html_options  = args[1] || {}
-    else
-      name          = args[0]
-      options       = args[1] || {}
-      html_options  = args[2] || {}
-    end
+    name = block_given? ? capture(&block) : args.shift
+    options = args.shift || {}
+    html_options = args.shift || {}
+    
     url = url_for(options)
 
     active_options  = { }
