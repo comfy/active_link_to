@@ -113,4 +113,6 @@ module ActiveLinkTo
   end
 end
 
-ActionView::Base.send :include, ActiveLinkTo
+ActiveSupport.on_load :action_view do
+  include ActiveLinkTo
+end
