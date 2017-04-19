@@ -148,6 +148,15 @@ active_link_to_class(users_path, active: :inclusive)
 # => 'active'
 ```
 
+## Defaults
+
+You can set default using `ActiveLinkTo.defaults` attribute like this:
+
+```ruby
+ActiveLinkTo.defaults = { :wrapper_tag => :li }
+```
+
+
 ### Copyright
 
 Copyright (c) 2009-17 Oleg Khabarov. See LICENSE for details.

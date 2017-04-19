@@ -230,4 +230,12 @@ class ActiveLinkToTest < MiniTest::Test
     link = active_link_to('label', '/äöü')
     assert_html link, 'a.active[href="/äöü"]', 'label'
   end
+
+  def test_defaults
+    ActiveLinkTo.defaults = { :wrap_tag => :li }
+    request.fullpath = '/root'
+    link = active_link_to('label', '/root')
+    assert_html link, 'li.active a.active[href="/root"]', 'label'
+    ActiveLinkTo.defaults = {}
+  end
 end

@@ -1,5 +1,12 @@
 module ActiveLinkTo
 
+  class << self
+    def defaults
+      @defaults ||= {}
+    end
+    attr_writer :defaults
+  end
+
   # Wrapper around link_to. Accepts following params:
   #   :active         => Boolean | Symbol | Regex | Controller/Action Pair
   #   :class_active   => String
@@ -16,7 +23,7 @@ module ActiveLinkTo
     
     url = url_for(options)
 
-    active_options  = { }
+    active_options  = ActiveLinkTo.defaults.dup
     link_options    = { }
     html_options.each do |k, v|
       if [:active, :class_active, :class_inactive, :active_disable, :wrap_tag, :wrap_class].member?(k)
