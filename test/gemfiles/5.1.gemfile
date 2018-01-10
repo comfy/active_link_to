@@ -1,0 +1,12 @@
+source 'http://rubygems.org'
+
+gemspec path: "../../"
+
+gem "actionpack", "~> 5.1.0"
+
+group :test do
+  gem 'minitest'
+  gem 'rake'
+  gem 'rack-test'
+  gem 'nokogiri'
+end

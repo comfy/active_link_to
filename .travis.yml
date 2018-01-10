@@ -1,0 +1,13 @@
+language: ruby
+rvm:
+  - 2.2.9
+  - 2.3.6
+  - 2.4.3
+  - 2.5.0
+gemfile:
+  - test/gemfiles/5.0.gemfile
+  - test/gemfiles/5.1.gemfile
+  - test/gemfiles/5.2.gemfile
+before_install:
+  - gem update --system
+  - gem update bundler

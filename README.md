@@ -1,7 +1,11 @@
 # active_link_to
-[![Gem Version](https://img.shields.io/gem/v/active_link_to.svg?style=flat)](http://rubygems.org/gems/active_link_to) [![Gem Downloads](https://img.shields.io/gem/dt/active_link_to.svg?style=flat)](http://rubygems.org/gems/active_link_to) [![Build Status](https://img.shields.io/travis/comfy/active_link_to.svg?style=flat)](https://travis-ci.org/comfy/active_link_to)
 
 Creates a link tag of the given name using a URL created by the set of options. Please see documentation for [link_to](http://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-link_to), as `active_link_to` is basically a wrapper for it. This method accepts an optional :active parameter that dictates if the given link will have an extra css class attached that marks it as 'active'.
+
+[![Gem Version](https://img.shields.io/gem/v/active_link_to.svg?style=flat)](http://rubygems.org/gems/active_link_to)
+[![Gem Downloads](https://img.shields.io/gem/dt/active_link_to.svg?style=flat)](http://rubygems.org/gems/active_link_to)
+[![Build Status](https://img.shields.io/travis/comfy/active_link_to.svg?style=flat)](https://travis-ci.org/comfy/active_link_to)
+[![Gitter](https://badges.gitter.im/comfy/comfortable-mexican-sofa.svg)](https://gitter.im/comfy/comfortable-mexican-sofa)
 
 ## Install
 When installing for Rails 3/4/5 applications add this to the Gemfile: `gem 'active_link_to'` and run `bundle install`.
