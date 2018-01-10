@@ -11,10 +11,11 @@ Gem::Specification.new do |s|
   s.homepage      = "http://github.com/comfy/active_link_to"
   s.summary       = "ActionView helper to render currently active links"
   s.description   = "Helpful method when you need to add some logic that figures out if the link (or more often navigation item) is selected based on the current page or other arbitrary condition"
+  s.license       = "MIT"
 
   s.files         = `git ls-files`.split("\n")
-  s.platform      = Gem::Platform::RUBY
-  s.require_paths = ['lib']
+
+  s.required_ruby_version = ">= 1.9.2"
 
   s.add_dependency 'actionpack'
   s.add_dependency 'addressable'
