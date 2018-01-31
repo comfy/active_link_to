@@ -4,7 +4,7 @@ module ActiveLinkTo
   #   :active         => Boolean | Symbol | Regex | Controller/Action Pair
   #   :class_active   => String
   #   :class_inactive => String
-  #   :disable_active => Boolean
+  #   :active_disable => Boolean
   #   :wrap_tag       => Symbol
   # Example usage:
   #   active_link_to('/users', class_active: 'enabled')
