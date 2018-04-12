@@ -154,4 +154,4 @@ active_link_to_class(users_path, active: :inclusive)
 
 ### Copyright
 
-Copyright (c) 2009-17 Oleg Khabarov. See LICENSE for details.
+Copyright (c) 2009-18 Oleg Khabarov. See LICENSE for details.
