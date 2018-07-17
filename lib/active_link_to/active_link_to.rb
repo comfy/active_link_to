@@ -1,4 +1,5 @@
 module ActiveLinkTo
+  ACTIVE_OPTIONS = [:active, :class_active, :class_inactive, :active_disable, :wrap_tag, :wrap_class]
 
   # Wrapper around link_to. Accepts following params:
   #   :active         => Boolean | Symbol | Regex | Controller/Action Pair
@@ -13,16 +14,16 @@ module ActiveLinkTo
     name = block_given? ? capture(&block) : args.shift
     options = args.shift || {}
     html_options = args.shift || {}
-    
+
     url = url_for(options)
 
     active_options  = { }
-    link_options    = { }
+    link_options    = html_options[:link_options] || {}
     html_options.each do |k, v|
-      if [:active, :class_active, :class_inactive, :active_disable, :wrap_tag, :wrap_class].member?(k)
+      if ACTIVE_OPTIONS.member?(k)
         active_options[k] = v
       else
-        link_options[k] = v
+        link_options[k] = v unless k == :link_options
       end
     end
 
