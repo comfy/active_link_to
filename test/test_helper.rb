@@ -10,6 +10,10 @@ class MiniTest::Test
   module FakeRequest
     class Request
       attr_accessor :original_fullpath
+      def path
+        return original_fullpath unless original_fullpath && original_fullpath.include?('?')
+        @path ||= original_fullpath.split('?').first
+      end
     end
     def request
       @request ||= Request.new

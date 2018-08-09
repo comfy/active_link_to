@@ -1,10 +1,6 @@
-source 'http://rubygems.org'
+# frozen_string_literal: true
 
+source 'https://rubygems.org'
+
+# Specify your gem's dependencies in active_link_to.gemspec
 gemspec
-
-group :test do
-  gem 'minitest'
-  gem 'rake'
-  gem 'rack-test'
-  gem 'nokogiri'
-end
