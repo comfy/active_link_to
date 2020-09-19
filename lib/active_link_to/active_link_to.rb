@@ -26,7 +26,7 @@ module ActiveLinkTo
       end
     end
 
-    css_class = link_options.delete(:class).to_s + ' '
+    css_class = "#{link_options.delete(:class)} "
 
     wrap_tag    = active_options[:wrap_tag].present? ? active_options[:wrap_tag] : nil
     wrap_class  = active_options[:wrap_class].present? ? active_options[:wrap_class] + ' ' : ''
