@@ -4,10 +4,8 @@ Creates a link tag of the given name using a URL created by the set of options. 
 
 [![Gem Version](https://img.shields.io/gem/v/simple_active_link_to.svg?style=flat)](http://rubygems.org/gems/simple_active_link_to)
 [![Gem Downloads](https://img.shields.io/gem/dt/simple_active_link_to.svg?style=flat)](http://rubygems.org/gems/simple_active_link_to)
-[![Build Status](https://img.shields.io/travis/comfy/simple_active_link_to.svg?style=flat)](https://travis-ci.org/comfy/simple_active_link_to)
-[![Gitter](https://badges.gitter.im/comfy/comfortable-mexican-sofa.svg)](https://gitter.im/comfy/comfortable-mexican-sofa)
 
-support ruby >= 2.4
+Support ruby >= 2.4
 
 ## Installation
 add `gem 'simple_active_link_to'` to Gemfile and run `bundle install`.
@@ -15,8 +13,6 @@ add `gem 'simple_active_link_to'` to Gemfile and run `bundle install`.
 or using `bundle add` command
 
 `bundle add simple_active_link_to`
-
-For older Rails apps add `config.gem 'simple_active_link_to'` in config/environment.rb and run `rake gems:install`. Or just checkout this repo into /vendor/plugins directory.
 
 ## Super Simple Example
 Here's a link that will have a class attached if it happens to be rendered
