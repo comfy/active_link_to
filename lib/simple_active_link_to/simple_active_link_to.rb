@@ -4,10 +4,8 @@ module SimpleActiveLinkTo
   #   :class_active   => String
   #   :class_inactive => String
   #   :active_disable => Boolean
-  #   :wrap_tag       => Symbol
   # Example usage:
   #   simple_active_link_to('/users', class_active: 'enabled')
-  #   simple_active_link_to(users_path, active: :exclusive, wrap_tag: :li)
   def simple_active_link_to(*args, &block)
     name = block_given? ? capture(&block) : args.shift
     options = args.shift || {}
