@@ -1,4 +1,4 @@
-module ActiveLinkTo
+module SimpleActiveLinkTo
   # Wrapper around link_to. Accepts following params:
   #   :active         => Boolean | Symbol | Regex | Controller/Action Pair
   #   :class_active   => String
@@ -6,9 +6,9 @@ module ActiveLinkTo
   #   :active_disable => Boolean
   #   :wrap_tag       => Symbol
   # Example usage:
-  #   active_link_to('/users', class_active: 'enabled')
-  #   active_link_to(users_path, active: :exclusive, wrap_tag: :li)
-  def active_link_to(*args, &block)
+  #   simple_active_link_to('/users', class_active: 'enabled')
+  #   simple_active_link_to(users_path, active: :exclusive, wrap_tag: :li)
+  def simple_active_link_to(*args, &block)
     name = block_given? ? capture(&block) : args.shift
     options = args.shift || {}
     html_options = args.shift || {}
@@ -102,5 +102,5 @@ module ActiveLinkTo
 end
 
 ActiveSupport.on_load :action_view do
-  include ActiveLinkTo
+  include SimpleActiveLinkTo
 end

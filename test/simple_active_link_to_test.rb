@@ -1,6 +1,6 @@
 require_relative 'test_helper'
 
-class ActiveLinkToTest < MiniTest::Test
+class SimpleActiveLinkToTest < MiniTest::Test
 
   def test_is_active_link_booleans_test
     assert is_active_link?('/', true)
@@ -159,54 +159,54 @@ class ActiveLinkToTest < MiniTest::Test
 
   def test_active_link_to
     set_path('/root')
-    link = active_link_to('label', '/root')
+    link = simple_active_link_to('label', '/root')
     assert_html link, 'a.active[href="/root"]', 'label'
 
-    link = active_link_to('label', '/other')
+    link = simple_active_link_to('label', '/other')
     assert_html link, 'a[href="/other"]', 'label'
   end
 
   def test_active_link_to_with_existing_class
     set_path('/root')
-    link = active_link_to('label', '/root', class: 'current')
+    link = simple_active_link_to('label', '/root', class: 'current')
     assert_html link, 'a.current.active[href="/root"]', 'label'
 
-    link = active_link_to('label', '/other', class: 'current')
+    link = simple_active_link_to('label', '/other', class: 'current')
     assert_html link, 'a.current[href="/other"]', 'label'
   end
 
   def test_active_link_to_with_custom_classes
     set_path('/root')
-    link = active_link_to('label', '/root', class_active: 'on')
+    link = simple_active_link_to('label', '/root', class_active: 'on')
     assert_html link, 'a.on[href="/root"]', 'label'
 
-    link = active_link_to('label', '/other', class_inactive: 'off')
+    link = simple_active_link_to('label', '/other', class_inactive: 'off')
     assert_html link, 'a.off[href="/other"]', 'label'
   end
 
   def test_active_link_to_with_active_disable
     set_path('/root')
-    link = active_link_to('label', '/root', active_disable: true)
+    link = simple_active_link_to('label', '/root', active_disable: true)
     assert_html link, 'span.active', 'label'
   end
 
   def test_should_not_modify_passed_params
     set_path('/root')
     params = {class: 'testing', active: :inclusive}
-    out = active_link_to 'label', '/root', params
+    out = simple_active_link_to 'label', '/root', params
     assert_html out, 'a.testing.active[href="/root"]', 'label'
     assert_equal ({class: 'testing', active: :inclusive }), params
   end
 
   def test_active_link_to_with_aria
     set_path('/root')
-    link = active_link_to('label', '/root')
+    link = simple_active_link_to('label', '/root')
     assert_html link, 'a.active[href="/root"][aria-current="page"]', 'label'
   end
 
   def test_active_link_to_with_utf8
     set_path('/äöü')
-    link = active_link_to('label', '/äöü')
+    link = simple_active_link_to('label', '/äöü')
     assert_html link, 'a.active[href="/äöü"]', 'label'
   end
 end

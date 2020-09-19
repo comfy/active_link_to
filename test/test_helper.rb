@@ -2,7 +2,7 @@ require 'bundler/setup'
 require 'minitest/autorun'
 require 'uri'
 require 'action_view'
-require 'active_link_to'
+require 'simple_active_link_to'
 
 class MiniTest::Test
 
@@ -19,11 +19,11 @@ class MiniTest::Test
     end
   end
 
-  ActiveLinkTo.send :include, FakeRequest
+  SimpleActiveLinkTo.send :include, FakeRequest
 
   include ActionView::Helpers::UrlHelper
   include ActionView::Helpers::TagHelper
-  include ActiveLinkTo
+  include SimpleActiveLinkTo
 
   def set_path(path, purge_cache = true)
     request.original_fullpath = path
