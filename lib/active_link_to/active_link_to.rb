@@ -13,7 +13,7 @@ module ActiveLinkTo
     name = block_given? ? capture(&block) : args.shift
     options = args.shift || {}
     html_options = args.shift || {}
-    
+
     url = url_for(options)
 
     active_options  = { }
@@ -85,13 +85,13 @@ module ActiveLinkTo
       path = request.original_fullpath
       case condition
       when :inclusive, nil
-        !path.match(/^#{Regexp.escape(url).chomp('/')}(\/.*|\?.*)?$/).blank?
+        path.match?(/^#{Regexp.escape(url).chomp('/')}(\/.*|\?.*)?$/)
       when :exclusive
-        !path.match(/^#{Regexp.escape(url)}\/?(\?.*)?$/).blank?
+        path.match?(/^#{Regexp.escape(url)}\/?(\?.*)?$/)
       when :exact
         path == original_url
       when Regexp
-        !path.match(condition).blank?
+        path.match?(condition)
       when Array
         controllers = [*condition[0]]
         actions     = [*condition[1]]
