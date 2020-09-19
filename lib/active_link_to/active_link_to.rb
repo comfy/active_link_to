@@ -1,5 +1,4 @@
 module ActiveLinkTo
-
   # Wrapper around link_to. Accepts following params:
   #   :active         => Boolean | Symbol | Regex | Controller/Action Pair
   #   :class_active   => String
@@ -16,39 +15,28 @@ module ActiveLinkTo
 
     url = url_for(options)
 
-    active_options  = { }
-    link_options    = { }
+    active_options = {}
+    link_options = {}
     html_options.each do |k, v|
-      if [:active, :class_active, :class_inactive, :active_disable, :wrap_tag, :wrap_class].member?(k)
+      if %i[active class_active class_inactive active_disable].member?(k)
         active_options[k] = v
       else
         link_options[k] = v
       end
     end
 
-    css_class = "#{link_options.delete(:class)} "
+    css_class = "#{link_options.delete(:class)} #{active_link_to_class(url, active_options)}"
+    css_class.strip!
+    link_options[:class] = css_class if css_class != ''
 
-    wrap_tag    = active_options[:wrap_tag].present? ? active_options[:wrap_tag] : nil
-    wrap_class  = active_options[:wrap_class].present? ? active_options[:wrap_class] + ' ' : ''
+    is_active = is_active_link?(url, active_options[:active])
+    link_options[:'aria-current'] = 'page' if is_active
 
-    if wrap_tag.present?
-      wrap_class << active_link_to_class(url, active_options)
-      wrap_class.strip!
-    else
-      css_class << active_link_to_class(url, active_options)
-      css_class.strip!
-    end
-
-    link_options[:class] = css_class if css_class.present?
-    link_options['aria-current'] = 'page' if is_active_link?(url, active_options[:active])
-
-    link = if active_options[:active_disable] === true && is_active_link?(url, active_options[:active])
+    if active_options[:active_disable] == true && is_active
       content_tag(:span, name, link_options)
     else
       link_to(name, url, link_options)
     end
-
-    wrap_tag ? content_tag(wrap_tag, link, class: (wrap_class if wrap_class.present?)) : link
   end
 
   # Returns css class name. Takes the link's URL and its params
@@ -81,13 +69,13 @@ module ActiveLinkTo
     @is_active_link ||= {}
     @is_active_link[[url, condition]] ||= begin
       original_url = url
-      url = Addressable::URI::parse(url).path
+      url = Addressable::URI.parse(url).path
       path = request.original_fullpath
       case condition
       when :inclusive, nil
-        path.match?(/^#{Regexp.escape(url).chomp('/')}(\/.*|\?.*)?$/)
+        path.match?(%r{^#{Regexp.escape(url).chomp('/')}(/.*|\?.*)?$})
       when :exclusive
-        path.match?(/^#{Regexp.escape(url)}\/?(\?.*)?$/)
+        path.match?(%r{^#{Regexp.escape(url)}/?(\?.*)?$})
       when :exact
         path == original_url
       when Regexp
@@ -96,10 +84,10 @@ module ActiveLinkTo
         controllers = [*condition[0]]
         actions     = [*condition[1]]
         (controllers.blank? || controllers.member?(params[:controller])) &&
-        (actions.blank? || actions.member?(params[:action])) ||
-        controllers.any? do |controller, action|
-          params[:controller] == controller.to_s && params[:action] == action.to_s
-        end
+          (actions.blank? || actions.member?(params[:action])) ||
+          controllers.any? do |controller, action|
+            params[:controller] == controller.to_s && params[:action] == action.to_s
+          end
       when TrueClass
         true
       when FalseClass
