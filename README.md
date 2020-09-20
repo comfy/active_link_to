@@ -7,7 +7,7 @@ This project is fork of [active_link_to](https://github.com/comfy/active_link_to
 [![Gem Version](https://img.shields.io/gem/v/simple_active_link_to.svg?style=flat)](http://rubygems.org/gems/simple_active_link_to)
 [![Gem Downloads](https://img.shields.io/gem/dt/simple_active_link_to.svg?style=flat)](http://rubygems.org/gems/simple_active_link_to)
 
-Require ruby >= 2.4
+Tested with ruby >= 2.5.x <= 2.7.x and rails >= 5.0 <= 6.0
 
 ## Installation
 add `gem 'simple_active_link_to'` to Gemfile and run `bundle install`.
