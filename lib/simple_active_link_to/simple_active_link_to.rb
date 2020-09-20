@@ -23,7 +23,7 @@ module SimpleActiveLinkTo
       end
     end
 
-    css_class = "#{link_options.delete(:class)} #{active_link_to_class(url, active_options)}"
+    css_class = "#{link_options[:class]} #{active_link_to_class(url, active_options)}"
     css_class.strip!
     link_options[:class] = css_class if css_class != ''
 
