@@ -1,4 +1,6 @@
 module SimpleActiveLinkTo
+  ACTIVE_OPTIONS = %i[active class_active class_inactive active_disable].freeze
+
   # Wrapper around link_to. Accepts following params:
   #   :active         => Boolean | Symbol | Regex | Controller/Action Pair
   #   :class_active   => String
@@ -8,20 +10,9 @@ module SimpleActiveLinkTo
   #   simple_active_link_to('/users', class_active: 'enabled')
   def simple_active_link_to(*args, &block)
     name = block_given? ? capture(&block) : args.shift
-    options = args.shift || {}
-    html_options = args.shift || {}
-
-    url = url_for(options)
-
-    active_options = {}
-    link_options = {}
-    html_options.each do |k, v|
-      if %i[active class_active class_inactive active_disable].member?(k)
-        active_options[k] = v
-      else
-        link_options[k] = v
-      end
-    end
+    url = url_for(args.shift)
+    link_options = args.shift&.dup || {}
+    active_options = link_options.extract!(*ACTIVE_OPTIONS)
 
     css_class = "#{link_options[:class]} #{active_link_to_class(url, active_options)}"
     css_class.strip!
