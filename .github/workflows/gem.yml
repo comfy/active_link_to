@@ -7,18 +7,22 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
-    name: Test + Build
+  tests:
+    name: Tests
     runs-on: ubuntu-latest
-
+    strategy:
+      matrix:
+        ruby: [2.5, 2.6, 2.7]
+        rails: ['5.0', '5.1', '5.2', '6.0']
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Ruby 2.4
-      uses: actions/setup-ruby@v1
+    - name: Set up Ruby 2.5
+      uses: ruby/setup-ruby@v1
       with:
-        ruby-version: 2.4.x
-        
-    - name: Install bundle gems
+        ruby-version: ${{ matrix.ruby }}
+    - name: Bundle install
       run: bundle install
-    - name: Test
-      run: bundle exec rake
+      env:
+        BUNDLE_GEMFILE: "test/gemfiles/${{ matrix.rails }}.gemfile"
+    - run: bundle exec rake
+
