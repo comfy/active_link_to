@@ -1,11 +1,13 @@
 # simple_active_link_to
 
-Creates a link tag of the given name using a URL created by the set of options. Please see documentation for [link_to](http://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-link_to), `simple_active_link_to` is basically a wrapper for it. This method accepts an optional :active parameter that dictates if the given link will have an extra css class attached that marks it as 'active'.
+`simple_active_link_to` is a wrapper for [link_to](http://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-link_to), but with active state by adding an extra css class `active` by default.
+
+This project is fork of [active_link_to](https://github.com/comfy/active_link_to), but without wrap tag, and some code improvement.
 
 [![Gem Version](https://img.shields.io/gem/v/simple_active_link_to.svg?style=flat)](http://rubygems.org/gems/simple_active_link_to)
 [![Gem Downloads](https://img.shields.io/gem/dt/simple_active_link_to.svg?style=flat)](http://rubygems.org/gems/simple_active_link_to)
 
-Support ruby >= 2.4
+Require ruby >= 2.4
 
 ## Installation
 add `gem 'simple_active_link_to'` to Gemfile and run `bundle install`.
@@ -139,7 +141,3 @@ is_active_link?(users_path, :inclusive)
 active_link_to_class(users_path, active: :inclusive)
 # => 'active'
 ```
-
-### Copyright
-
-Copyright (c) 2009-18 Oleg Khabarov. See LICENSE for details.
