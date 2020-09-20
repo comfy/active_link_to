@@ -79,8 +79,8 @@ module SimpleActiveLinkTo
       when Regexp
         path.match?(condition)
       when Array
-        controllers = [*condition[0]]
-        actions     = [*condition[1]]
+        controllers = Array(condition[0])
+        actions     = Array(condition[1])
         (controllers.blank? || controllers.member?(params[:controller])) &&
           (actions.blank? || actions.member?(params[:action])) ||
           controllers.any? do |controller, action|
