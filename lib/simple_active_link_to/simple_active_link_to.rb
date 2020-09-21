@@ -42,14 +42,12 @@ module SimpleActiveLinkTo
     active_class = active_link_to_class(url, active_options)
     link_options[:class] = "#{css_class} #{active_class}".strip
 
-    is_active = is_active_link?(url, active_options[:active])
-    link_options[:'aria-current'] = 'page' if is_active
-
-    if active_options[:active_disable] == true && is_active
-      content_tag(:span, name, link_options)
-    else
-      link_to(name, url, link_options)
+    if is_active_link?(url, active_options[:active])
+      link_options[:'aria-current'] = 'page'
+      return content_tag(:span, name, link_options) if active_options[:active_disable] == true
     end
+
+    link_to(name, url, link_options)
   end
 
   # Returns css class name. Takes the link's URL and its params
