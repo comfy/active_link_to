@@ -1,6 +1,6 @@
 # simple_active_link_to
 
-`simple_active_link_to` is a wrapper for [link_to](http://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-link_to), but with active state by adding an extra css class `active` by default.
+`simple_active_link_to` is a wrapper for [link_to](http://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-link_to), with active state by adding an extra css class `active` by default.
 
 This project is fork of [active_link_to](https://github.com/comfy/active_link_to), but without wrap tag, and some code improvement.
 
