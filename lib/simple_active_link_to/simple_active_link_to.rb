@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module SimpleActiveLinkTo
   ACTIVE_OPTIONS = %i[active class_active class_inactive active_disable].freeze
 
@@ -15,7 +17,7 @@ module SimpleActiveLinkTo
     active_options = link_options.extract!(*ACTIVE_OPTIONS)
 
     css_class = "#{link_options[:class]} #{active_link_to_class(url, active_options)}"
-    css_class.strip!
+                .strip
     link_options[:class] = css_class if css_class != ''
 
     is_active = is_active_link?(url, active_options[:active])
