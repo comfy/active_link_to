@@ -16,6 +16,10 @@ Gem::Specification.new do |s|
   s.files         = `git ls-files`.split("\n")
 
   s.required_ruby_version = '>= 2.4.0'
+  s.add_development_dependency 'minitest'
+  s.add_development_dependency 'nokogiri'
+  s.add_development_dependency 'rack-test'
+  s.add_development_dependency 'rake'
 
   s.add_dependency 'actionpack', '>= 5.0'
   s.add_dependency 'activesupport', '>= 5.0'
