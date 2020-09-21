@@ -1,7 +1,12 @@
 # frozen_string_literal: true
 
 module SimpleActiveLinkTo
-  ACTIVE_OPTIONS = %i[active class_active class_inactive active_disable].freeze
+  ACTIVE_OPTIONS = %i[
+    active
+    class_active
+    class_inactive
+    active_disable
+  ].freeze
 
   # Wrapper around link_to. Accepts following params:
   #   :active         => Boolean | Symbol | Regex | Controller/Action Pair
@@ -10,15 +15,32 @@ module SimpleActiveLinkTo
   #   :active_disable => Boolean
   # Example usage:
   #   simple_active_link_to('/users', class_active: 'enabled')
-  def simple_active_link_to(*args, &block)
-    name = block_given? ? capture(&block) : args.shift
-    url = url_for(args.shift)
-    link_options = args.shift&.dup || {}
-    active_options = link_options.extract!(*ACTIVE_OPTIONS)
+  def simple_active_link_to(name = nil, options = nil, html_options = nil, &block)
+    if block_given?
+      html_options = options
+      options = name
+      name = capture(&block)
+    else
+      html_options = html_options
+      options ||= {}
+    end
 
-    css_class = "#{link_options[:class]} #{active_link_to_class(url, active_options)}"
-                .strip
-    link_options[:class] = css_class if css_class != ''
+    html_options ||= {}
+    link_options = {}
+    active_options = {}
+    html_options.each do |k, v|
+      if ACTIVE_OPTIONS.include?(k)
+        active_options[k] = v
+      else
+        link_options[k] = v
+      end
+    end
+
+    url = url_for(options)
+
+    css_class = link_options[:class]
+    active_class = active_link_to_class(url, active_options)
+    link_options[:class] = "#{css_class} #{active_class}".strip
 
     is_active = is_active_link?(url, active_options[:active])
     link_options[:'aria-current'] = 'page' if is_active
@@ -59,18 +81,22 @@ module SimpleActiveLinkTo
   def is_active_link?(url, condition = nil)
     @is_active_link ||= {}
     @is_active_link[[url, condition]] ||= begin
-      original_url = url
-      url = Addressable::URI.parse(url).path
-      path = request.original_fullpath
       case condition
-      when :inclusive, nil
-        path.match?(%r{^#{Regexp.escape(url).chomp('/')}(/.*|\?.*)?$})
-      when :exclusive
-        path.match?(%r{^#{Regexp.escape(url)}/?(\?.*)?$})
+      when :exclusive, :inclusive, nil
+        url_path = url.split('#').first.split('?').first
+        url_string = URI.parser.unescape(url_path).force_encoding(Encoding::BINARY)
+        request_uri = URI.parser.unescape(request.path).force_encoding(Encoding::BINARY)
+
+        if condition == :exclusive
+          url_string == request_uri
+        else
+          closing = url_string.end_with?('/') ? '' : '/'
+          url_string == request_uri || request_uri.start_with?(url_string + closing)
+        end
       when :exact
-        path == original_url
+        request.original_fullpath == url
       when Regexp
-        path.match?(condition)
+        request.original_fullpath.match?(condition)
       when Array
         controllers = Array(condition[0])
         actions     = Array(condition[1])
@@ -79,10 +105,8 @@ module SimpleActiveLinkTo
           controllers.any? do |controller, action|
             params[:controller] == controller.to_s && params[:action] == action.to_s
           end
-      when TrueClass
-        true
-      when FalseClass
-        false
+      when TrueClass, FalseClass
+        condition
       when Hash
         condition.all? do |key, value|
           params[key].to_s == value.to_s

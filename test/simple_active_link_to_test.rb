@@ -211,4 +211,10 @@ class SimpleActiveLinkToTest < MiniTest::Test
     link = simple_active_link_to('label', '/äöü')
     assert_html link, 'a.active[href="/äöü"]', 'label'
   end
+
+  def test_active_link_to_with_block
+    set_path('/root')
+    link = simple_active_link_to('/root') { 'label' }
+    assert_html link, 'a.active[href="/root"]', 'label'
+  end
 end
