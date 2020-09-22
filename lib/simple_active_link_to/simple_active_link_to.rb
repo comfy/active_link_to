@@ -20,9 +20,6 @@ module SimpleActiveLinkTo
       html_options = options
       options = name
       name = capture(&block)
-    else
-      html_options = html_options
-      options ||= {}
     end
 
     html_options ||= {}
