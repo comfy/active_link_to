@@ -81,12 +81,14 @@ module SimpleActiveLinkTo
         url_path = url.split('#').first.split('?').first
         url_string = URI.parser.unescape(url_path).force_encoding(Encoding::BINARY)
         request_uri = URI.parser.unescape(request.path).force_encoding(Encoding::BINARY)
-
-        if condition == :exclusive
-          url_string == request_uri
-        else
+        
+        if url_string == request_uri
+          true
+        elsif condition != :exclusive
           closing = url_string.end_with?('/') ? '' : '/'
-          url_string == request_uri || request_uri.start_with?(url_string + closing)
+          request_uri.start_with?(url_string + closing)
+        else
+          false
         end
       when :exact
         request.original_fullpath == url
