@@ -2,12 +2,12 @@
 
 `simple_active_link_to` is a wrapper for [link_to](http://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-link_to), with active state by adding an extra css class `active` by default.
 
-This project is fork of [active_link_to](https://github.com/comfy/active_link_to), but without wrap tag, and some code improvement.
+This project is fork of [active_link_to](https://github.com/comfy/active_link_to), but without wrap tag.
 
 [![Gem Version](https://img.shields.io/gem/v/simple_active_link_to.svg?style=flat)](http://rubygems.org/gems/simple_active_link_to)
 [![Gem Downloads](https://img.shields.io/gem/dt/simple_active_link_to.svg?style=flat)](http://rubygems.org/gems/simple_active_link_to)
 
-Tested with ruby >= 2.5.x <= 2.7.x and rails >= 5.0 <= 6.0
+Tested with ruby 2.5 to 2.7 and rails 5.0 to 6.0
 
 ## Installation
 add `gem 'simple_active_link_to'` to Gemfile and run `bundle install`.
