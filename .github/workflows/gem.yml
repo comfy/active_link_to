@@ -13,7 +13,7 @@ jobs:
     strategy:
       matrix:
         ruby: [2.5, 2.6, 2.7]
-        rails: ['5.0', '5.1', '5.2', '6.0']
+        rails: ['5.0', '5.1', '5.2', '6.0', '6.1']
     steps:
     - uses: actions/checkout@v2
     - name: Set up Ruby 2.5
