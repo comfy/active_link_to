@@ -2,9 +2,9 @@ name: Ruby Gem
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master, dev ]
   pull_request:
-    branches: [ master ]
+    branches: [ master, dev ]
 
 jobs:
   tests:
@@ -22,7 +22,7 @@ jobs:
         ruby-version: ${{ matrix.ruby }}
     - name: Bundle install
       run: |
-        bundle config path vendor/bundle
+        bundle config path $(pwd)/vendor/bundle
         bundle install --jobs 4 --retry 3
       env:
         BUNDLE_GEMFILE: "test/gemfiles/${{ matrix.rails }}.gemfile"
