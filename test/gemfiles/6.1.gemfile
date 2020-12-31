@@ -1,0 +1,5 @@
+source 'http://rubygems.org'
+
+gemspec path: "../../"
+
+gem "actionpack", "~> 6.1.0"

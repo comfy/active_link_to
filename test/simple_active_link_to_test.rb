@@ -9,6 +9,10 @@ class SimpleActiveLinkToTest < MiniTest::Test
     refute is_active_link?('/', false)
   end
 
+  def test_is_active_link_handle_empty_string
+    assert is_active_link?('', true)
+  end
+
   def test_is_active_link_symbol_inclusive
     set_path('/root')
     assert is_active_link?('/root', :inclusive)
