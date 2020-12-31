@@ -16,12 +16,14 @@ jobs:
         rails: ['5.0', '5.1', '5.2', '6.0', '6.1']
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Ruby 2.5
+    - name: Set up Ruby
       uses: ruby/setup-ruby@v1
       with:
         ruby-version: ${{ matrix.ruby }}
     - name: Bundle install
-      run: bundle install
+      run: |
+        bundle config path vendor/bundle
+        bundle install --jobs 4 --retry 3
       env:
         BUNDLE_GEMFILE: "test/gemfiles/${{ matrix.rails }}.gemfile"
     - run: bundle exec rake
