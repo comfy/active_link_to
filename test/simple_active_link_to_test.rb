@@ -190,10 +190,16 @@ class SimpleActiveLinkToTest < MiniTest::Test
     assert_html link, 'a.off[href="/other"]', 'label'
   end
 
-  def test_active_link_to_with_active_disable
+  def test_active_link_to_with_active_disable_as_true
     set_path('/root')
     link = simple_active_link_to('label', '/root', active_disable: true)
     assert_html link, 'span.active', 'label'
+  end
+
+  def test_active_link_to_with_active_disable_as_hash
+    set_path('/root')
+    link = simple_active_link_to('label', '/root', active_disable: :hash)
+    assert_html link, 'a.active[href="/root#"]', 'label'
   end
 
   def test_should_not_modify_passed_params

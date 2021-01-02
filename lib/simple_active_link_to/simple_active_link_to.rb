@@ -12,7 +12,7 @@ module SimpleActiveLinkTo
   #   :active         => Boolean | Symbol | Regex | Controller/Action Pair
   #   :class_active   => String
   #   :class_inactive => String
-  #   :active_disable => Boolean
+  #   :active_disable => Boolean | :hash
   # Example usage:
   #   simple_active_link_to('/users', class_active: 'enabled')
   def simple_active_link_to(name = nil, options = nil, html_options = nil, &block)
@@ -41,7 +41,12 @@ module SimpleActiveLinkTo
 
     if is_active_link?(url, active_options[:active])
       link_options[:'aria-current'] = 'page'
-      return content_tag(:span, name, link_options) if active_options[:active_disable] == true
+      case active_options[:active_disable]
+      when true
+        return content_tag(:span, name, link_options) 
+      when :hash
+        url += "#"
+      end
     end
 
     link_to(name, url, link_options)

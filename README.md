@@ -2,7 +2,7 @@
 
 `simple_active_link_to` is a wrapper for [link_to](http://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-link_to), with active state by adding an extra css class `active` by default.
 
-This gem works like [active_link_to](https://github.com/comfy/active_link_to), but without wrap tag.
+This gem works like [active_link_to](https://github.com/comfy/active_link_to), but with additional ```active_disable``` option and without wrap tag.
 
 [![Gem Version](https://img.shields.io/gem/v/simple_active_link_to.svg?style=flat)](http://rubygems.org/gems/simple_active_link_to)
 [![Gem Downloads](https://img.shields.io/gem/dt/simple_active_link_to.svg?style=flat)](http://rubygems.org/gems/simple_active_link_to)
@@ -123,6 +123,14 @@ Sometimes you want to replace link tag with a span if it's active:
 ```ruby
 simple_active_link_to 'Users', users_path, active_disable: true
 # => <span class="active">Users</span>
+```
+
+or you want to append it with hash (`#`) at the end of url, it will be useful when you use Turbolinks
+and don't want the link load the page content
+
+```ruby
+simple_active_link_to 'Users', users_path, active_disable: :hash
+# => <a href="/users" class="active">Users</a>
 ```
 
 ## Helper Methods
