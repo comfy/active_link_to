@@ -7,7 +7,7 @@ This gem works like [active_link_to](https://github.com/comfy/active_link_to), b
 [![Gem Version](https://img.shields.io/gem/v/simple_active_link_to.svg?style=flat)](http://rubygems.org/gems/simple_active_link_to)
 [![Gem Downloads](https://img.shields.io/gem/dt/simple_active_link_to.svg?style=flat)](http://rubygems.org/gems/simple_active_link_to)
 
-Tested with ruby 2.5 to 2.7 and rails 5.0 to 6.1
+Tested with ruby 2.5 to 3.0 and rails 5.0 to 6.1
 
 ## Installation
 add `gem 'simple_active_link_to'` to Gemfile and run `bundle install`.
