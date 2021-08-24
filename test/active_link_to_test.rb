@@ -1,5 +1,20 @@
 require_relative 'test_helper'
 
+class ActiveLinkToWithoutRequestTest < MiniTest::Test
+  def setup
+    super
+
+    def self.request
+      nil
+    end
+  end
+
+  def test_nil_request
+    refute is_active_link?('/')
+    refute is_active_link?('https://example.com/')
+  end
+end
+
 class ActiveLinkToTest < MiniTest::Test
 
   def test_is_active_link_booleans_test

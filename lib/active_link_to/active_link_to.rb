@@ -13,7 +13,7 @@ module ActiveLinkTo
     name = block_given? ? capture(&block) : args.shift
     options = args.shift || {}
     html_options = args.shift || {}
-    
+
     url = url_for(options)
 
     active_options  = { }
@@ -80,6 +80,8 @@ module ActiveLinkTo
   def is_active_link?(url, condition = nil)
     @is_active_link ||= {}
     @is_active_link[[url, condition]] ||= begin
+      return false if request.nil?
+
       original_url = url
       url = Addressable::URI::parse(url).path
       path = request.original_fullpath
