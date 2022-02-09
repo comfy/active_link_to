@@ -1,6 +1,33 @@
 require_relative 'test_helper'
 
 class ActiveLinkToTest < MiniTest::Test
+  def setup
+    reset_configuration
+  end
+
+  def reset_configuration
+    ActiveLinkTo.configuration = ActiveLinkTo::Configuration.new
+  end
+
+  def test_default_active_class
+    assert_equal 'active', ActiveLinkTo.configuration.class_active
+  end
+
+  def test_default_inactive_class
+    assert_equal '', ActiveLinkTo.configuration.class_inactive
+  end
+
+  def test_default_active_disable
+    refute ActiveLinkTo.configuration.active_disable
+  end
+
+  def test_default_wrap_tag
+    assert_nil ActiveLinkTo.configuration.wrap_tag
+  end
+
+  def test_default_wrap_class
+    assert_equal '', ActiveLinkTo.configuration.wrap_class
+  end
 
   def test_is_active_link_booleans_test
     assert is_active_link?('/', true)
@@ -166,6 +193,17 @@ class ActiveLinkToTest < MiniTest::Test
     assert_html link, 'a[href="/other"]', 'label'
   end
 
+  def test_active_link_to_with_configured_alternative_class_active_value
+    ActiveLinkTo.configuration.class_active = 'is-active'
+
+    set_path('/root')
+    link = active_link_to('label', '/root')
+    assert_html link, 'a.is-active[href="/root"]', 'label'
+
+    link = active_link_to('label', '/other')
+    assert_html link, 'a[href="/other"]', 'label'
+  end
+
   def test_active_link_to_with_existing_class
     set_path('/root')
     link = active_link_to('label', '/root', class: 'current')
@@ -176,6 +214,29 @@ class ActiveLinkToTest < MiniTest::Test
   end
 
   def test_active_link_to_with_custom_classes
+    set_path('/root')
+    link = active_link_to('label', '/root', class_active: 'on')
+    assert_html link, 'a.on[href="/root"]', 'label'
+
+    link = active_link_to('label', '/other', class_inactive: 'off')
+    assert_html link, 'a.off[href="/other"]', 'label'
+  end
+
+  def test_active_link_to_inactive_class_configuration
+    ActiveLinkTo.configuration.class_inactive = 'inactive'
+
+    set_path('/root')
+    link = active_link_to('label', '/root')
+    assert_html link, 'a.active[href="/root"]', 'label'
+
+    link = active_link_to('label', '/other')
+    assert_html link, 'a.inactive[href="/other"]', 'label'
+  end
+
+  def test_active_link_to_with_custom_classes_overrides_configured_values
+    ActiveLinkTo.configuration.class_active = 'is-active'
+    ActiveLinkTo.configuration.class_inactive = 'is-inactive'
+
     set_path('/root')
     link = active_link_to('label', '/root', class_active: 'on')
     assert_html link, 'a.on[href="/root"]', 'label'
@@ -196,10 +257,43 @@ class ActiveLinkToTest < MiniTest::Test
     assert_html link, 'li.active a.testing[href="/root"]', 'label'
   end
 
+  def test_active_link_to_with_wrap_tag_configuration_set
+    ActiveLinkTo.configuration.wrap_tag = :li
+
+    set_path('/root')
+    link = active_link_to('label', '/root')
+    assert_html link, 'li.active a[href="/root"]', 'label'
+
+    link = active_link_to('label', '/root', active_disable: true)
+    assert_html link, 'li.active span', 'label'
+
+    link = active_link_to('label', '/root', class: 'testing')
+    assert_html link, 'li.active a.testing[href="/root"]', 'label'
+  end
+
   def test_active_link_to_with_active_disable
     set_path('/root')
     link = active_link_to('label', '/root', active_disable: true)
     assert_html link, 'span.active', 'label'
+  end
+
+  def test_active_link_to_with_active_disable_configuration
+    ActiveLinkTo.configuration.active_disable = true
+
+    set_path('/root')
+    link = active_link_to('label', '/root')
+    assert_html link, 'span.active', 'label'
+  end
+
+  def test_active_link_to_with_active_disable_configuration_override
+    ActiveLinkTo.configuration.active_disable = true
+
+    set_path('/root')
+    link = active_link_to('label', '/root')
+    assert_html link, 'span.active', 'label'
+
+    link = active_link_to('label', '/root', active_disable: false)
+    assert_html link, 'a.active', 'label'
   end
 
   def test_should_not_modify_passed_params
