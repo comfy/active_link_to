@@ -40,6 +40,28 @@ Here's a list of available options that can be used as the `:active` value
 * Hash                            -> { param_a: 1, param_b: 2 }
 ```
 
+## Configuration
+Several of the options that can be set in a calling of the helper can also be set in an
+initializer. For example, if you want to use `is-active` as the active class all the time,
+create `config/initializers/active_link_to.rb` with:
+
+```ruby
+ActiveLinkTo.configure do |config|
+  config.class_active = 'is-active'
+end
+```
+
+The full list of configurable values is:
+
+- `class_active`
+- `class_inactive`
+- `active_disable`
+- `wrap_tag`
+- `wrap_class`
+
+Setting these values in configuration just changes the default -- setting them in a
+use of the helper should always override the default, as you'd expect.
+
 ## More Examples
 Most of the functionality of `active_link_to` depends on the current
 url. Specifically, `request.original_fullpath` value. We covered the basic example
