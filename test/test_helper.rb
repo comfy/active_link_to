@@ -4,7 +4,7 @@ require 'uri'
 require 'action_view'
 require 'active_link_to'
 
-class MiniTest::Test
+class Minitest::Test
 
   # need this to simulate requests that drive active_link_helper
   module FakeRequest
