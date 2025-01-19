@@ -29,7 +29,7 @@ module ActiveLinkTo
     css_class = link_options.delete(:class).to_s + ' '
 
     wrap_tag    = active_options[:wrap_tag].present? ? active_options[:wrap_tag] : nil
-    wrap_class  = active_options[:wrap_class].present? ? active_options[:wrap_class] + ' ' : ''
+    wrap_class  = active_options[:wrap_class].present? ? String.new(active_options[:wrap_class] + ' ') : String.new('')
 
     if wrap_tag.present?
       wrap_class << active_link_to_class(url, active_options)
