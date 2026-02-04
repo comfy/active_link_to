@@ -2,6 +2,7 @@ module ActiveLinkTo
 
   # Wrapper around link_to. Accepts following params:
   #   :active         => Boolean | Symbol | Regex | Controller/Action Pair
+  #   :exclude        => Boolean | Symbol | Regex | Controller/Action Pair
   #   :class_active   => String
   #   :class_inactive => String
   #   :active_disable => Boolean
@@ -19,7 +20,7 @@ module ActiveLinkTo
     active_options  = { }
     link_options    = { }
     html_options.each do |k, v|
-      if [:active, :class_active, :class_inactive, :active_disable, :wrap_tag, :wrap_class].member?(k)
+      if [:active, :exclude, :class_active, :class_inactive, :active_disable, :wrap_tag, :wrap_class].member?(k)
         active_options[k] = v
       else
         link_options[k] = v
@@ -40,9 +41,9 @@ module ActiveLinkTo
     end
 
     link_options[:class] = css_class if css_class.present?
-    link_options['aria-current'] = 'page' if is_active_link?(url, active_options[:active])
+    link_options['aria-current'] = 'page' if is_active_link?(url, active_options[:active], active_options[:exclude])
 
-    link = if active_options[:active_disable] === true && is_active_link?(url, active_options[:active])
+    link = if active_options[:active_disable] === true && is_active_link?(url, active_options[:active], active_options[:exclude])
       content_tag(:span, name, link_options)
     else
       link_to(name, url, link_options)
@@ -56,7 +57,7 @@ module ActiveLinkTo
   #   active_link_to_class('/root', class_active: 'on', class_inactive: 'off')
   #
   def active_link_to_class(url, options = {})
-    if is_active_link?(url, options[:active])
+    if is_active_link?(url, options[:active], options[:exclude])
       options[:class_active] || 'active'
     else
       options[:class_inactive] || ''
@@ -70,44 +71,58 @@ module ActiveLinkTo
   #                    Regex -> /regex/
   #   Controller/Action Pair -> [[:controller], [:action_a, :action_b]]
   #
+  # The exclude parameter uses the same format as condition. If the exclude
+  # condition matches, the link will not be active even if condition matches.
+  #
   # Example usage:
   #
   #   is_active_link?('/root', true)
   #   is_active_link?('/root', :exclusive)
   #   is_active_link?('/root', /^\/root/)
   #   is_active_link?('/root', ['users', ['show', 'edit']])
+  #   is_active_link?('/root', [['users'], []], [[], ['dashboard']])
   #
-  def is_active_link?(url, condition = nil)
+  def is_active_link?(url, condition = nil, exclude = nil)
     @is_active_link ||= {}
-    @is_active_link[[url, condition]] ||= begin
-      original_url = url
-      url = Addressable::URI::parse(url).path
-      path = request.original_fullpath
-      case condition
-      when :inclusive, nil
-        !path.match(/^#{Regexp.escape(url).chomp('/')}(\/.*|\?.*)?$/).blank?
-      when :exclusive
-        !path.match(/^#{Regexp.escape(url)}\/?(\?.*)?$/).blank?
-      when :exact
-        path == original_url
-      when Regexp
-        !path.match(condition).blank?
-      when Array
-        controllers = [*condition[0]]
-        actions     = [*condition[1]]
-        (controllers.blank? || controllers.member?(params[:controller])) &&
-        (actions.blank? || actions.member?(params[:action])) ||
-        controllers.any? do |controller, action|
-          params[:controller] == controller.to_s && params[:action] == action.to_s
-        end
-      when TrueClass
-        true
-      when FalseClass
-        false
-      when Hash
-        condition.all? do |key, value|
-          params[key].to_s == value.to_s
-        end
+    @is_active_link[[url, condition, exclude]] ||= begin
+      active = check_active_condition(url, condition)
+      if active && exclude
+        active = !check_active_condition(url, exclude)
+      end
+      active
+    end
+  end
+
+  private
+
+  def check_active_condition(url, condition)
+    original_url = url
+    url = Addressable::URI::parse(url).path
+    path = request.original_fullpath
+    case condition
+    when :inclusive, nil
+      !path.match(/^#{Regexp.escape(url).chomp('/')}(\/.*|\?.*)?$/).blank?
+    when :exclusive
+      !path.match(/^#{Regexp.escape(url)}\/?(\?.*)?$/).blank?
+    when :exact
+      path == original_url
+    when Regexp
+      !path.match(condition).blank?
+    when Array
+      controllers = [*condition[0]]
+      actions     = [*condition[1]]
+      (controllers.blank? || controllers.member?(params[:controller])) &&
+      (actions.blank? || actions.member?(params[:action])) ||
+      controllers.any? do |controller, action|
+        params[:controller] == controller.to_s && params[:action] == action.to_s
+      end
+    when TrueClass
+      true
+    when FalseClass
+      false
+    when Hash
+      condition.all? do |key, value|
+        params[key].to_s == value.to_s
       end
     end
   end

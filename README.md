@@ -29,7 +29,7 @@ active_link_to 'Users', '/users', active: :inclusive
 ```
 
 ## Active Options
-Here's a list of available options that can be used as the `:active` value
+Here's a list of available options that can be used as the `:active` value (and `:exclude` value)
 
 ```
 * Boolean                         -> true | false
@@ -103,6 +103,34 @@ If we need to set link to be active based on `params`, we can do that as well:
 active_link_to 'Admin users', users_path(role_eq: 'admin'), active: { role_eq: 'admin' }
 ```
 
+## Excluding Routes
+
+Sometimes you want a link to be active for a broad set of URLs but exclude specific ones.
+The `:exclude` option accepts the same formats as `:active`. If the exclude condition
+matches, the link will not be active even if the active condition matches.
+
+```ruby
+# Active for the 'users' controller, but NOT for the 'index' action
+active_link_to 'Users', users_path, active: [['users'], []], exclude: [[], ['index']]
+
+# Active for all paths under /users, but not /users/admin
+active_link_to 'Users', users_path, active: :inclusive, exclude: /\/users\/admin/
+
+# Active for everything except the dashboard controller
+active_link_to 'Other', other_path, active: [[], []], exclude: [['dashboard'], []]
+```
+
+This is useful for navigation where one link should be active for most pages, but a different
+link should take over for specific pages:
+
+```ruby
+# "People" link is active only on the people controller
+active_link_to 'People', people_path, active: [['people'], []]
+
+# "Dashboard" link is active everywhere except the people controller
+active_link_to 'Dashboard', dashboard_path, active: [[], []], exclude: [['people'], []]
+```
+
 ## More Options
 You can specify active and inactive css classes for links:
 
@@ -143,13 +171,20 @@ You may directly use methods that `active_link_to` relies on.
 ```ruby
 is_active_link?(users_path, :inclusive)
 # => true
+
+# With exclude parameter
+is_active_link?(users_path, :inclusive, /\/admin/)
+# => true (unless current path matches /\/admin/)
 ```
 
 `active_link_to_class` will return the css class:
 
-```
+```ruby
 active_link_to_class(users_path, active: :inclusive)
 # => 'active'
+
+active_link_to_class(users_path, active: :inclusive, exclude: [[], ['index']])
+# => '' (if current action is 'index')
 ```
 
 ### Copyright

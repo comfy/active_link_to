@@ -135,6 +135,72 @@ class ActiveLinkToTest < MiniTest::Test
     assert is_active_link?('/', {b: 2})
   end
 
+  def test_is_active_link_with_exclude_array
+    params[:controller], params[:action] = 'people', 'index'
+
+    # Active for people controller, no exclusions
+    assert is_active_link?('/', [['people'], []])
+
+    # Active for people controller, but exclude index action
+    refute is_active_link?('/', [['people'], []], [[], ['index']])
+
+    # Active for people controller, exclude show action (not current)
+    assert is_active_link?('/', [['people'], []], [[], ['show']])
+
+    # Active for any controller, exclude dashboard action
+    assert is_active_link?('/', [[], []], [[], ['dashboard']])
+
+    params[:controller], params[:action] = 'dashboard', 'index'
+
+    # Active for any controller, exclude dashboard controller
+    refute is_active_link?('/', [[], []], [['dashboard'], []])
+
+    # Active for people controller (not matching), so exclude doesn't matter
+    refute is_active_link?('/', [['people'], []], [['dashboard'], []])
+  end
+
+  def test_is_active_link_with_exclude_path
+    set_path('/root')
+
+    # Active inclusively, no exclusions
+    assert is_active_link?('/root', :inclusive)
+
+    # Active inclusively, but exclude via regex
+    refute is_active_link?('/root', :inclusive, /^\/root$/)
+
+    # Active inclusively, exclude non-matching regex
+    assert is_active_link?('/root', :inclusive, /^\/other/)
+
+    set_path('/root/child')
+
+    # Active inclusively for /root, exclude /root/child via regex
+    refute is_active_link?('/root', :inclusive, /^\/root\/child$/)
+
+    # Active inclusively for /root, exclude doesn't match /root/child
+    assert is_active_link?('/root', :inclusive, /^\/root\/other/)
+  end
+
+  def test_is_active_link_with_exclude_boolean
+    set_path('/root')
+
+    # Active, but exclude is true (always excluded)
+    refute is_active_link?('/root', :inclusive, true)
+
+    # Active, exclude is false (never excluded)
+    assert is_active_link?('/root', :inclusive, false)
+  end
+
+  def test_is_active_link_with_exclude_hash
+    params[:a] = 1
+    params[:b] = 2
+
+    # Active based on param a, exclude based on param b
+    refute is_active_link?('/', {a: 1}, {b: 2})
+
+    # Active based on param a, exclude based on param c (not present)
+    assert is_active_link?('/', {a: 1}, {c: 3})
+  end
+
   def test_is_active_link_with_anchor
     set_path('/foo')
     assert is_active_link?('/foo#anchor', :exclusive)
@@ -155,6 +221,13 @@ class ActiveLinkToTest < MiniTest::Test
 
     assert_equal '', active_link_to_class('/other')
     assert_equal 'off', active_link_to_class('/other', class_inactive: 'off')
+  end
+
+  def test_active_link_to_class_with_exclude
+    set_path('/root')
+    assert_equal 'active', active_link_to_class('/root', active: :inclusive)
+    assert_equal '', active_link_to_class('/root', active: :inclusive, exclude: /^\/root$/)
+    assert_equal 'off', active_link_to_class('/root', active: :inclusive, exclude: /^\/root$/, class_inactive: 'off')
   end
 
   def test_active_link_to
@@ -229,5 +302,41 @@ class ActiveLinkToTest < MiniTest::Test
     set_path('/äöü')
     link = active_link_to('label', '/äöü')
     assert_html link, 'a.active[href="/äöü"]', 'label'
+  end
+
+  def test_active_link_to_with_exclude
+    set_path('/root')
+
+    # Without exclude, link is active
+    link = active_link_to('label', '/root')
+    assert_html link, 'a.active[href="/root"]', 'label'
+
+    # With matching exclude, link is not active
+    link = active_link_to('label', '/root', exclude: /^\/root$/)
+    assert_html link, 'a[href="/root"]', 'label'
+    refute link.include?('active')
+    refute link.include?('aria-current')
+
+    # With non-matching exclude, link is still active
+    link = active_link_to('label', '/root', exclude: /^\/other/)
+    assert_html link, 'a.active[href="/root"]', 'label'
+  end
+
+  def test_active_link_to_with_exclude_controller_action
+    params[:controller], params[:action] = 'users', 'index'
+    set_path('/users')
+
+    # Active for users controller
+    link = active_link_to('label', '/users', active: [['users'], []])
+    assert_html link, 'a.active[href="/users"]', 'label'
+
+    # Active for users controller, but exclude index action
+    link = active_link_to('label', '/users', active: [['users'], []], exclude: [[], ['index']])
+    assert_html link, 'a[href="/users"]', 'label'
+    refute link.include?('class="active"')
+
+    # Active for users controller, exclude show action (not matching)
+    link = active_link_to('label', '/users', active: [['users'], []], exclude: [[], ['show']])
+    assert_html link, 'a.active[href="/users"]', 'label'
   end
 end
