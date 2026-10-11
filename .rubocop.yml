@@ -1,0 +1,13 @@
+AllCops:
+  NewCops: enable
+
+# Everything is too big and too complex, yes.
+Metrics:
+  Enabled: false
+
+# is_active_link? not getting renamed
+Naming/PredicatePrefix:
+  Enabled: false
+
+Style/StringLiterals:
+  EnforcedStyle: double_quotes

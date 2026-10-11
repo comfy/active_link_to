@@ -1,6 +1,6 @@
-# encoding: utf-8
+# frozen_string_literal: true
 
-$:.unshift File.expand_path("../lib", __FILE__)
+$LOAD_PATH.unshift File.expand_path("lib", __dir__)
 require "active_link_to/version"
 
 Gem::Specification.new do |s|
@@ -10,7 +10,9 @@ Gem::Specification.new do |s|
   s.email         = ["oleg@khabarov.ca"]
   s.homepage      = "http://github.com/comfy/active_link_to"
   s.summary       = "ActionView helper to render currently active links"
-  s.description   = "Helpful method when you need to add some logic that figures out if the link (or more often navigation item) is selected based on the current page or other arbitrary condition"
+  s.description   = "Helpful method when you need to add some logic that figures out " \
+                    "if the link (or more often navigation item) " \
+                    "is selected based on the current page or other arbitrary condition"
   s.license       = "MIT"
 
   s.files         = `git ls-files`.split("\n")
@@ -20,6 +22,5 @@ Gem::Specification.new do |s|
   s.add_dependency "actionpack"
   s.add_dependency "addressable"
 
-  s.add_development_dependency "rspec", "~> 3.0"
-  s.add_development_dependency "rspec-html-matchers", "~> 0.10"
+  s.metadata["rubygems_mfa_required"] = "true"
 end

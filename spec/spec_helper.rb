@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "bundler/setup"
 Bundler.setup
 
@@ -20,16 +22,17 @@ module FakeRequest
     @params ||= {}
   end
 
-  def current_path_is(path, purge_cache = true)
+  def current_path_is(path, purge_cache: true)
     request.original_fullpath = path
+
     # method is cached, so we bust it to set path multiple times in one test
-    if purge_cache && defined?(@is_active_link)
-      remove_instance_variable(:@is_active_link)
-    end
+    return unless purge_cache && defined?(@is_active_link)
+
+    remove_instance_variable(:@is_active_link)
   end
 end
 
-ActiveLinkTo.send :include, FakeRequest
+ActiveLinkTo.include FakeRequest
 
 RSpec.configure do |config|
   config.include ActionView::Helpers::UrlHelper

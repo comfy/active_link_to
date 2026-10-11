@@ -1,52 +1,52 @@
-module ActiveLinkTo
+# frozen_string_literal: true
 
-  # Wrapper around link_to. Accepts following params:
-  #   :active         => Boolean | Symbol | Regex | Controller/Action Pair
-  #   :class_active   => String
-  #   :class_inactive => String
-  #   :active_disable => Boolean
-  #   :wrap_tag       => Symbol
-  # Example usage:
-  #   active_link_to('/users', class_active: 'enabled')
-  #   active_link_to(users_path, active: :exclusive, wrap_tag: :li)
+# Wrapper around link_to. Accepts following params:
+#   :active         => Boolean | Symbol | Regex | Controller/Action Pair
+#   :class_active   => String
+#   :class_inactive => String
+#   :active_disable => Boolean
+#   :wrap_tag       => Symbol
+# Example usage:
+#   active_link_to('/users', class_active: 'enabled')
+#   active_link_to(users_path, active: :exclusive, wrap_tag: :li)
+module ActiveLinkTo
   def active_link_to(*args, &block)
     name = block_given? ? capture(&block) : args.shift
     options = args.shift || {}
     html_options = args.shift || {}
-    
+
     url = url_for(options)
 
-    active_options  = { }
-    link_options    = { }
+    active_options  = {}
+    link_options    = {}
     html_options.each do |k, v|
-      if [:active, :class_active, :class_inactive, :active_disable, :wrap_tag, :wrap_class].member?(k)
+      if %i[active class_active class_inactive active_disable wrap_tag wrap_class].member?(k)
         active_options[k] = v
       else
         link_options[k] = v
       end
     end
 
-    css_class = link_options.delete(:class).to_s + ' '
-
-    wrap_tag    = active_options[:wrap_tag].present? ? active_options[:wrap_tag] : nil
-    wrap_class  = active_options[:wrap_class].present? ? active_options[:wrap_class] + ' ' : ''
+    css_class = link_options.delete(:class).to_s
+    wrap_tag  = active_options[:wrap_tag].present? ? active_options[:wrap_tag] : nil
 
     if wrap_tag.present?
-      wrap_class << active_link_to_class(url, active_options)
+      wrap_class = "#{wrap_class} #{active_link_to_class(url, active_options)}"
       wrap_class.strip!
     else
-      css_class << active_link_to_class(url, active_options)
+      css_class = "#{css_class} #{active_link_to_class(url, active_options)}"
       css_class.strip!
     end
 
     link_options[:class] = css_class if css_class.present?
-    link_options['aria-current'] = 'page' if is_active_link?(url, active_options[:active])
+    link_options["aria-current"] = "page" if is_active_link?(url, active_options[:active])
 
-    link = if active_options[:active_disable] === true && is_active_link?(url, active_options[:active])
-      content_tag(:span, name, link_options)
-    else
-      link_to(name, url, link_options)
-    end
+    link =
+      if active_options[:active_disable] == true && is_active_link?(url, active_options[:active])
+        content_tag(:span, name, link_options)
+      else
+        link_to(name, url, link_options)
+      end
 
     wrap_tag ? content_tag(wrap_tag, link, class: (wrap_class if wrap_class.present?)) : link
   end
@@ -57,9 +57,9 @@ module ActiveLinkTo
   #
   def active_link_to_class(url, options = {})
     if is_active_link?(url, options[:active])
-      options[:class_active] || 'active'
+      options[:class_active] || "active"
     else
-      options[:class_inactive] || ''
+      options[:class_inactive] || ""
     end
   end
 
@@ -81,13 +81,13 @@ module ActiveLinkTo
     @is_active_link ||= {}
     @is_active_link[[url, condition]] ||= begin
       original_url = url
-      url = Addressable::URI::parse(url).path
+      url = Addressable::URI.parse(url).path
       path = request.original_fullpath
       case condition
       when :inclusive, nil
-        !path.match(/^#{Regexp.escape(url).chomp('/')}(\/.*|\?.*)?$/).blank?
+        !path.match(%r{^#{Regexp.escape(url).chomp('/')}(/.*|\?.*)?$}).blank?
       when :exclusive
-        !path.match(/^#{Regexp.escape(url)}\/?(\?.*)?$/).blank?
+        !path.match(%r{^#{Regexp.escape(url)}/?(\?.*)?$}).blank?
       when :exact
         path == original_url
       when Regexp
@@ -95,11 +95,11 @@ module ActiveLinkTo
       when Array
         controllers = [*condition[0]]
         actions     = [*condition[1]]
-        (controllers.blank? || controllers.member?(params[:controller])) &&
-        (actions.blank? || actions.member?(params[:action])) ||
-        controllers.any? do |controller, action|
-          params[:controller] == controller.to_s && params[:action] == action.to_s
-        end
+        ((controllers.blank? || controllers.member?(params[:controller])) &&
+          (actions.blank? || actions.member?(params[:action]))) ||
+          controllers.any? do |controller, action|
+            params[:controller] == controller.to_s && params[:action] == action.to_s
+          end
       when TrueClass
         true
       when FalseClass
