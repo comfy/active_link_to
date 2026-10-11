@@ -4,13 +4,16 @@ Creates a link tag of the given name using a URL created by the set of options. 
 
 [![Gem Version](https://img.shields.io/gem/v/active_link_to.svg?style=flat)](http://rubygems.org/gems/active_link_to)
 [![Gem Downloads](https://img.shields.io/gem/dt/active_link_to.svg?style=flat)](http://rubygems.org/gems/active_link_to)
-[![Build Status](https://img.shields.io/travis/comfy/active_link_to.svg?style=flat)](https://travis-ci.org/comfy/active_link_to)
-[![Gitter](https://badges.gitter.im/comfy/comfortable-mexican-sofa.svg)](https://gitter.im/comfy/comfortable-mexican-sofa)
 
 ## Install
-When installing for Rails 3/4/5 applications add this to the Gemfile: `gem 'active_link_to'` and run `bundle install`.
 
-For older Rails apps add `config.gem 'active_link_to'` in config/environment.rb and run `rake gems:install`. Or just checkout this repo into /vendor/plugins directory.
+Add to your Gemfile:
+
+```ruby
+gem "active_link_to"
+```
+
+and then run `bundle install`
 
 ## Super Simple Example
 Here's a link that will have a class attached if it happens to be rendered
@@ -154,4 +157,4 @@ active_link_to_class(users_path, active: :inclusive)
 
 ### Copyright
 
-Copyright (c) 2009-18 Oleg Khabarov. See LICENSE for details.
+Copyright (c) 2009-26 Oleg Khabarov. See LICENSE for details.
