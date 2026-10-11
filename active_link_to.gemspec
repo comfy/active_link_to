@@ -1,7 +1,7 @@
 # encoding: utf-8
 
-$:.unshift File.expand_path('../lib', __FILE__)
-require 'active_link_to/version'
+$:.unshift File.expand_path("../lib", __FILE__)
+require "active_link_to/version"
 
 Gem::Specification.new do |s|
   s.name          = "active_link_to"
@@ -17,6 +17,9 @@ Gem::Specification.new do |s|
 
   s.required_ruby_version = ">= 2.3.0"
 
-  s.add_dependency 'actionpack'
-  s.add_dependency 'addressable'
+  s.add_dependency "actionpack"
+  s.add_dependency "addressable"
+
+  s.add_development_dependency "rspec", "~> 3.0"
+  s.add_development_dependency "rspec-html-matchers", "~> 0.10"
 end
