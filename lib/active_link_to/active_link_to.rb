@@ -78,11 +78,14 @@ module ActiveLinkTo
   #   is_active_link?('/root', ['users', ['show', 'edit']])
   #
   def is_active_link?(url, condition = nil)
+    return false if request.nil?
+
     @is_active_link ||= {}
     @is_active_link[[url, condition]] ||= begin
       original_url = url
-      url = Addressable::URI.parse(url).path
-      path = request.original_fullpath
+      url          = Addressable::URI.parse(url).path
+      path         = request.original_fullpath
+
       case condition
       when :inclusive, nil
         !path.match(%r{^#{Regexp.escape(url).chomp('/')}(/.*|\?.*)?$}).blank?
