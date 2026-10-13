@@ -140,6 +140,11 @@ RSpec.describe ActiveLinkTo do
       current_path_is("/foo")
       expect(is_active_link?("/foo#anchor", :exclusive)).to be(true)
     end
+
+    it "returns false if request is nil (like in email templates)" do
+      allow(self).to receive(:request).and_return(nil)
+      expect(is_active_link?("/foo")).to be(false)
+    end
   end
 
   describe "#active_link_to_class" do
