@@ -138,6 +138,7 @@ RSpec.describe ActiveLinkTo do
 
     it "matches if path value has anchor" do
       current_path_is("/foo")
+
       expect(is_active_link?("/foo#anchor", :exclusive)).to be(true)
     end
 
@@ -150,12 +151,14 @@ RSpec.describe ActiveLinkTo do
   describe "#active_link_to_class" do
     it "returns css class name for active links" do
       current_path_is("/foo")
+
       expect(active_link_to_class("/foo")).to eq("active")
       expect(active_link_to_class("/other")).to eq("")
     end
 
     it "can use custom css class names for active and inactive links" do
       current_path_is("/foo")
+
       expect(active_link_to_class("/foo", class_active: "on")).to eq("on")
       expect(active_link_to_class("/other", class_inactive: "off")).to eq("off")
     end
@@ -164,6 +167,7 @@ RSpec.describe ActiveLinkTo do
   describe "#active_link_to" do
     it "renders link with active state" do
       current_path_is("/foo")
+
       link = active_link_to("label", "/foo")
       expect(link).to have_tag("a", with: { href: "/foo", class: "active" }, text: "label")
 
@@ -173,6 +177,7 @@ RSpec.describe ActiveLinkTo do
 
     it "doesn't clobber existing class names" do
       current_path_is("/foo")
+
       link = active_link_to("label", "/foo", class: "existing")
       expect(link).to have_tag("a", with: { class: %w[active existing] })
     end
@@ -189,6 +194,7 @@ RSpec.describe ActiveLinkTo do
 
     it "can render span instead of an active link" do
       current_path_is("/foo")
+
       active_link = active_link_to("label", "/foo", active_disable: true)
       expect(active_link).to have_tag("span", with: { class: "active" }, text: "label")
 
@@ -198,8 +204,9 @@ RSpec.describe ActiveLinkTo do
 
     it "can use wrapper element around active link" do
       current_path_is("/foo")
-      link = active_link_to("label", "/foo", wrap_tag: :li, class: "existing")
-      expect(link).to have_tag("li", with: { class: "active" }) do
+
+      link = active_link_to("label", "/foo", wrap_tag: :li, wrap_class: "wrap-class", class: "existing")
+      expect(link).to have_tag("li", with: { class: %w[wrap-class active] }) do
         with_tag("a", without: { class: "active" }, with: { class: "existing" })
       end
     end
@@ -215,6 +222,7 @@ RSpec.describe ActiveLinkTo do
 
     it "marks active link with aria attribute" do
       current_path_is("/foo")
+
       active_link = active_link_to("label", "/foo")
       expect(active_link).to have_tag("a", with: { "aria-current": "page", class: "active" })
 
@@ -224,6 +232,7 @@ RSpec.describe ActiveLinkTo do
 
     it "renders link with utf8 characters" do
       current_path_is("/äöü")
+
       link = active_link_to("label", "/äöü")
       expect(link).to have_tag("a", with: { href: "/äöü", class: "active" })
     end

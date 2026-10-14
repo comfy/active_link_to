@@ -9,10 +9,11 @@
 # Example usage:
 #   active_link_to('/users', class_active: 'enabled')
 #   active_link_to(users_path, active: :exclusive, wrap_tag: :li)
+#
 module ActiveLinkTo
   def active_link_to(*args, &block)
-    name = block_given? ? capture(&block) : args.shift
-    options = args.shift || {}
+    name         = block_given? ? capture(&block) : args.shift
+    options      = args.shift || {}
     html_options = args.shift || {}
 
     url = url_for(options)
@@ -28,7 +29,20 @@ module ActiveLinkTo
     end
 
     css_class = link_options.delete(:class).to_s
-    wrap_tag  = active_options[:wrap_tag].present? ? active_options[:wrap_tag] : nil
+
+    wrap_tag =
+      if active_options.member?(:wrap_tag)
+        active_options[:wrap_tag]
+      else
+        ActiveLinkTo.configuration.wrap_tag
+      end
+
+    wrap_class =
+      if active_options.member?(:wrap_class)
+        active_options[:wrap_class]
+      else
+        ActiveLinkTo.configuration.wrap_class
+      end
 
     if wrap_tag.present?
       wrap_class = "#{wrap_class} #{active_link_to_class(url, active_options)}"
@@ -41,8 +55,15 @@ module ActiveLinkTo
     link_options[:class] = css_class if css_class.present?
     link_options["aria-current"] = "page" if is_active_link?(url, active_options[:active])
 
+    should_disable_link =
+      if active_options.member?(:active_disable)
+        active_options[:active_disable]
+      else
+        ActiveLinkTo.configuration.active_disable
+      end
+
     link =
-      if active_options[:active_disable] == true && is_active_link?(url, active_options[:active])
+      if should_disable_link && is_active_link?(url, active_options[:active])
         content_tag(:span, name, link_options)
       else
         link_to(name, url, link_options)
@@ -57,9 +78,9 @@ module ActiveLinkTo
   #
   def active_link_to_class(url, options = {})
     if is_active_link?(url, options[:active])
-      options[:class_active] || "active"
+      options[:class_active] || ActiveLinkTo.configuration.class_active
     else
-      options[:class_inactive] || ""
+      options[:class_inactive] || ActiveLinkTo.configuration.class_inactive
     end
   end
 
