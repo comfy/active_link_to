@@ -56,11 +56,11 @@ end
 
 The full list of configurable values is:
 
-- `class_active`
-- `class_inactive`
-- `active_disable`
-- `wrap_tag`
-- `wrap_class`
+- `class_active` with default `"active"`
+- `class_inactive` with default `""`
+- `active_disable` with default `false`
+- `wrap_tag` with default `nil`
+- `wrap_class` with default `""`
 
 Setting these values in configuration just changes the default -- setting them in a
 use of the helper should always override the default, as you'd expect.
