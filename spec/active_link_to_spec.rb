@@ -96,6 +96,7 @@ RSpec.describe ActiveLinkTo do
       expect(is_active_link?("/", [["foos"], %w[bar baz]])).to be(true)
       expect(is_active_link?("/", [%w[foos bars], ["bar"]])).to be(true)
       expect(is_active_link?("/", [%w[foos bars], %w[bar baz]])).to be(true)
+      expect(is_active_link?("/", [%i[foos bars], %i[bar baz]])).to be(true)
 
       expect(is_active_link?("/", %w[foos bar])).to be(true)
       expect(is_active_link?("/", ["foos", %w[bar baz]])).to be(true)
@@ -112,10 +113,9 @@ RSpec.describe ActiveLinkTo do
 
       expect(is_active_link?("/", [{ foos: :bar }])).to be(true)
       expect(is_active_link?("/", [{ "foos" => "bar" }])).to be(true)
-      expect(is_active_link?("/", [{ eggs: :ham, foos: :bar }])).to be(true)
+      expect(is_active_link?("/", [{ %i[foos bars] => %w[foo bar], %w[eggs hams] => %i[egg bar] }])).to be(true)
 
-      expect(is_active_link?("/", [{ foos: :foo }])).to be(false)
-      expect(is_active_link?("/", [{ bars: :bar }])).to be(false)
+      expect(is_active_link?("/", [{ foos: :foo, bars: :bar }])).to be(false)
     end
 
     it "works for parameter matching" do

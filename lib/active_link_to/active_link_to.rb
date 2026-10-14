@@ -89,24 +89,37 @@ module ActiveLinkTo
       case condition
       when :inclusive, nil
         !path.match(%r{^#{Regexp.escape(url).chomp('/')}(/.*|\?.*)?$}).blank?
+
       when :exclusive
         !path.match(%r{^#{Regexp.escape(url)}/?(\?.*)?$}).blank?
+
       when :exact
         path == original_url
+
       when Regexp
         !path.match(condition).blank?
+
+      # This may come in two forms:
+      #   - tuple with first item being controller names followed by names of actions
+      #   - array of hashes where key is list of controllers and value is a list of actions
       when Array
-        controllers = [*condition[0]]
-        actions     = [*condition[1]]
-        ((controllers.blank? || controllers.member?(params[:controller])) &&
-          (actions.blank? || actions.member?(params[:action]))) ||
-          controllers.any? do |controller, action|
-            params[:controller] == controller.to_s && params[:action] == action.to_s
+        pairs =
+          if condition.all?(Hash)
+            condition[0]
+          else
+            { condition[0] => condition[1] }
           end
+
+        pairs.any? do |controllers, actions|
+          [*controllers].map(&:to_s).include?(params[:controller]) && [*actions].map(&:to_s).include?(params[:action])
+        end
+
       when TrueClass
         true
+
       when FalseClass
         false
+
       when Hash
         condition.all? do |key, value|
           params[key].to_s == value.to_s
