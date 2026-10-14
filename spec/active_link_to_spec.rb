@@ -136,7 +136,7 @@ RSpec.describe ActiveLinkTo do
       expect(is_active_link?("/", { b: 2 })).to be(true)
     end
 
-    it "matches is path value has anchor" do
+    it "matches if path value has anchor" do
       current_path_is("/foo")
       expect(is_active_link?("/foo#anchor", :exclusive)).to be(true)
     end
