@@ -4,6 +4,7 @@ Creates a link tag of the given name using a URL created by the set of options. 
 
 [![Gem Version](https://img.shields.io/gem/v/active_link_to.svg?style=flat)](http://rubygems.org/gems/active_link_to)
 [![Gem Downloads](https://img.shields.io/gem/dt/active_link_to.svg?style=flat)](http://rubygems.org/gems/active_link_to)
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/comfy/active_link_to/build.yml?branch=master)
 
 ## Install
 
