@@ -106,6 +106,26 @@ RSpec.describe ActiveLinkTo do
       expect(is_active_link?("/", %w[foos other])).to be(false)
     end
 
+    it "matches on any action for a given controller" do
+      # currently active controller/action pair
+      params[:controller] = "foos"
+      params[:action]     = "bar"
+
+      expect(is_active_link?("/", [%w[foos bars], []])).to be(true)
+      expect(is_active_link?("/", ["foos", []])).to be(true)
+      expect(is_active_link?("/", ["bars", []])).to be(false)
+    end
+
+    it "matches on any controller for a given action" do
+      # currently active controller/action pair
+      params[:controller] = "foos"
+      params[:action]     = "bar"
+
+      expect(is_active_link?("/", [[], %w[foo bar]])).to be(true)
+      expect(is_active_link?("/", [[], "bar"])).to be(true)
+      expect(is_active_link?("/", [[], "foo"])).to be(false)
+    end
+
     it "works when flag is defined as a hash" do
       # currently active controller/action pair
       params[:controller] = "foos"
