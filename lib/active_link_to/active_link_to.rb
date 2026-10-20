@@ -132,7 +132,8 @@ module ActiveLinkTo
           end
 
         pairs.any? do |controllers, actions|
-          [*controllers].map(&:to_s).include?(params[:controller]) && [*actions].map(&:to_s).include?(params[:action])
+          (controllers.blank? || [*controllers].map(&:to_s).include?(params[:controller])) &&
+            (actions.blank? || [*actions].map(&:to_s).include?(params[:action]))
         end
 
       when TrueClass
